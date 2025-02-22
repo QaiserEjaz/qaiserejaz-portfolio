@@ -28,7 +28,7 @@ Here’s a simple guide to run this project.
 
 Ensure that you have already installed:  
 - **Node.js**  
-- mpm 0r yarn
+- npm or yarn
 ---
 
 ## Steps to Run the Project  
