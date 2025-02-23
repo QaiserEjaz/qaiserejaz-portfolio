@@ -1,0 +1,22 @@
+# Auto detect text files and perform LF normalization
+* text=auto eol=lf
+
+# Windows scripts
+*.{cmd,[cC][mM][dD]} text eol=crlf
+*.{bat,[bB][aA][tT]} text eol=crlf
+*.ps1 text eol=crlf
+
+# Binary files
+*.{png,jpg,jpeg,gif,webp,svg,ico,woff,woff2,eot,ttf,otf} binary
+
+# Source files
+*.{js,jsx,ts,tsx,css,json,html} text eol=lf
+*.{md,mdx} text eol=lf
+*.{yml,yaml} text eol=lf
+
+# Config files
+.env* text eol=lf
+.gitattributes text eol=lf
+.gitignore text eol=lf
+.eslintrc* text eol=lf
+.prettierrc* text eol=lf
