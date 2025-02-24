@@ -118,10 +118,7 @@ const Home = () => {
   // Optimize AOS initialization
   useEffect(() => {
     const initAOS = () => {
-      AOS.init({
-        once: true,
-        offset: 10,
-      });
+      AOS.init({ once: true, offset: 10,});
     };
 
     initAOS();
@@ -165,7 +162,8 @@ const Home = () => {
   // Lottie configuration
   const lottieOptions = {
     // src: "https://lottie.host/58753882-bb6a-49f5-a2c0-950eda1e135a/NLbpVqGegK.lottie",
-    src:"/Coding.json",
+    // src:"/Coding.json",
+    src:"/Coding4.lottie",
     // src :"https://lottie.host/314f2f76-1eee-4e9c-8a4a-9c533fe7568e/y5BCzVhs1I.lottie",
     // src:"https://lottie.host/f694b36f-85d3-4714-8552-59871431c8e8/29mWnfzAk9.lottie",
     // src:"https://lottie.host/628ba23e-5ce5-40c9-8e8c-3e3e4c9a07f5/iVSLArzs25.lottie",
@@ -174,21 +172,21 @@ const Home = () => {
     autoplay: true,
     style: { width: "100%", height: "100%" },
     className: `w-full h-full transition-all duration-500 ${isHovering
-      ? "scale-[180%] sm:scale-[160%] md:scale-[150%] lg:scale-[145%] rotate-2"
-      : "scale-[175%] sm:scale-[155%] md:scale-[145%] lg:scale-[140%]"
+      ? "scale-[180%] sm:scale-[160%] md:scale-[150%] lg:scale-[145%] xl:scale-[140%] rotate-2"
+      : "scale-[175%] sm:scale-[155%] md:scale-[145%] lg:scale-[140%] xl:scale-[135%] rotate-0"
       }`
   };
 
   return (
     <div className="min-h-screen bg-[#030014] overflow-hidden" id="Home">
       <div className={`relative z-10 transition-all duration-1000 ${isLoaded ? "opacity-100" : "opacity-0"}`}>
-        <div className="container mx-auto px-[5%] sm:px-6 lg:px-[0%] min-h-screen">
+        <div className="container mx-auto px-[5%]  sm:px-6 md:px-[5%] lg:px-[9%] xl:px-[4%] 2xl:px-[8%] min-h-screen">
           <div className="flex flex-col lg:flex-row items-center justify-center h-screen md:justify-between gap-0 sm:gap-12 lg:gap-20">
             {/* Left Column */}
             <div className="w-full lg:w-1/2 space-y-6 sm:space-y-8 text-left lg:text-left order-1 lg:order-1 lg:mt-0"
               data-aos="fade-right"
               data-aos-delay="200">
-              <div className="space-y-4 sm:space-y-6">
+              <div className="space-y-4 sm:space-y-6 ">
                 <StatusBadge />
                 <MainTitle />
 
