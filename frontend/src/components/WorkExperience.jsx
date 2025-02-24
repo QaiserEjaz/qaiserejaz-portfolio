@@ -127,7 +127,8 @@ const WorkExperience = () => {
     }, []);
 
     return (
-        <div className="container mx-auto p-6 overflow-hidden">
+        // <div className="container mx-auto px-2 sm:p-6 overflow-hidden">
+        <div className="w-full sm:container sm:mx-auto sm:p-6 overflow-hidden">
             <h2
                 data-aos="fade-down"
                 className="text-3xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#6366f1] to-[#a855f7] text-center mb-12"
@@ -146,13 +147,13 @@ const WorkExperience = () => {
                         key={index}
                         data-aos="fade-up"
                         data-aos-delay={index * 100}
-                        className="relative group pl-8 md:pl-14 mb-8 last:mb-0" // Adjusted padding for mobile
+                        className="relative group sm:pl-8 md:pl-14 mb-8 last:mb-2" // Adjusted padding for mobile
                     >
                         {/* Timeline Dot (Hidden on Mobile) */}
                         <div className="hidden md:block absolute left-1 -translate-x-1/2 top-6 w-4 h-4 bg-gradient-to-r from-[#6366f1] to-[#a855f7] rounded-full border-2 border-white/20"></div>
 
                         {/* Work Experience Card */}
-                        <div className="relative bg-gray-900/50 backdrop-blur-lg p-6 rounded-xl border border-white/10 overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-md group-hover:border-[#6366f1]/50">
+                        <div className="relative bg-gray-900/50 backdrop-blur-lg p-6 rounded-xl border border-white/10 overflow-hidden transition-all duration-300 hover:scale-100 hover:shadow-md group-hover:border-[#6366f1]/50">
                             {/* Gradient background for hover effect */}
                             <div className={`absolute -z-10 inset-0 bg-gradient-to-br from-[#6366f1] to-[#a855f7] opacity-10 group-hover:opacity-20 transition-opacity duration-300`}></div>
 
@@ -227,6 +228,8 @@ const WorkExperience = () => {
                     </div>
                 </div>
             )}
+
+
 
 
 

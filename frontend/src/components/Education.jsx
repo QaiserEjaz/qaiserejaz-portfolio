@@ -40,7 +40,9 @@ const WorkExperience = () => {
     }, []);
 
     return (
-        <div className="container mx-auto p-6 relative overflow-hidden">
+        // <div className="container mx-auto p-6 relative overflow-hidden">
+        <div className="w-full px-2 sm:container sm:mx-auto sm:p-6 relative overflow-hidden">
+        
             <h2
                 data-aos="fade-down"
                 className="text-3xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#6366f1] to-[#a855f7] text-center mb-12"
