@@ -4,24 +4,25 @@ import 'aos/dist/aos.css';
 
 const TestAOS = () => {
     useEffect(() => {
-        // Inisialisasi AOS
+        // Initialize AOS
         AOS.init();
 
-        // Function untuk mengecek will-change property
+        // Function to check the will-change property
         const checkWillChange = () => {
-            // Mengambil semua elemen dengan data-aos
+            // Get all elements with the data-aos attribute
             const aosElements = document.querySelectorAll('[data-aos]');
             
-            console.log(`Ditemukan ${aosElements.length} elemen dengan data-aos`);
+            console.log(`Found ${aosElements.length} elements with data-aos`);
             
             aosElements.forEach((element, index) => {
-                // Tambahkan border pada elemen
+                // Add a border to the element for visual debugging
                 element.style.border = '2px dashed red';
                 
-                // Mengambil computed style
+                // Get the computed style of the element
                 const computedStyle = window.getComputedStyle(element);
                 const willChange = computedStyle.getPropertyValue('will-change');
                 
+                // Log details about the element
                 console.log(`Element ${index + 1}:`, {
                     'data-aos': element.getAttribute('data-aos'),
                     'will-change': willChange,
@@ -31,7 +32,7 @@ const TestAOS = () => {
             });
         };
 
-        // Jalankan pengecekan setelah AOS diinisialisasi
+        // Run the check after AOS is initialized
         setTimeout(checkWillChange, 100);
     }, []);
 
@@ -45,7 +46,6 @@ const TestAOS = () => {
                 `}
             </style>
 
-           
         </>
     );
 };

@@ -136,7 +136,7 @@ const CommentForm = memo(function CommentForm({ onSubmit, isSubmitting }) {
         />
       </div>
 
-      <div className="space-y-2" data-aos="fade-up" data-aos-duration="1400">
+      {/* <div className="space-y-2" data-aos="fade-up" data-aos-duration="1400">
         <label className="block text-sm font-medium text-white">
           Profile Photo <span className="text-gray-400">(optional)</span>
         </label>
@@ -184,7 +184,7 @@ const CommentForm = memo(function CommentForm({ onSubmit, isSubmitting }) {
             </div>
           )}
         </div>
-      </div>
+      </div> */}
 
       <button id="submitBtn"
         type="submit"
