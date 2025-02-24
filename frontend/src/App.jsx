@@ -16,6 +16,7 @@ import ProjectDetails from "./components/ProjectDetail";
 import WelcomeScreen from "./Pages/WelcomeScreen";
 // import ContactPage from "./Pages/Contact";
 import ThankYou from "./Pages/ThankYou";
+import { Speed } from '@mui/icons-material';
 
 const LandingPage = ({ showWelcome, setShowWelcome }) => {
   return (
@@ -66,16 +67,6 @@ const ProjectPageLayout = () => (
 function App() {
   const [showWelcome, setShowWelcome] = useState(true);
 
-  // return (
-  //   <BrowserRouter>
-  //     <Routes>
-  //       <Route path="/" element={<LandingPage showWelcome={showWelcome} setShowWelcome={setShowWelcome} />} />
-  //       <Route path="/project/:id" element={<ProjectPageLayout />} />
-  //     </Routes>
-  //   </BrowserRouter>
-  // );
-
-
   const router = createBrowserRouter(
     [
       {
@@ -86,10 +77,6 @@ function App() {
         path: "/project/:id",
         element: <ProjectPageLayout />,
       },
-      // {
-      //   path: "/contact",
-      //   element: <ContactPage />,
-      // },
       {
         path: "/thank-you", // Add route for ThankYouPage
         element: <ThankYou />,
@@ -109,7 +96,10 @@ function App() {
   );
 
   return (
-  <RouterProvider router={router} />
+    <>
+      <RouterProvider router={router} />
+      <SpeedInsights />
+    </>
   )
 }
 
