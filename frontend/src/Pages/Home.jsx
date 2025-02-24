@@ -172,8 +172,8 @@ const Home = () => {
     autoplay: true,
     style: { width: "100%", height: "100%" },
     className: `w-full h-full transition-all duration-500 ${isHovering
-      ? "scale-[180%] sm:scale-[160%] md:scale-[150%] lg:scale-[145%] xl:scale-[140%] rotate-2"
-      : "scale-[175%] sm:scale-[155%] md:scale-[145%] lg:scale-[140%] xl:scale-[135%] rotate-0"
+      ? "scale-[180%] sm:scale-[160%] lg:scale-[175%] xl:scale-[180%] 2xl:scale-[135%] rotate-1"
+      : "scale-[175%] sm:scale-[155%] lg:scale-[170%] xl:scale-[175%] 2xl:scale-[130%] rotate-0"
       }`
   };
 
