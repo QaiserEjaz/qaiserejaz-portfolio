@@ -25,7 +25,7 @@ const ProjectCardModal = ({ title, description, link }) => {
 
   return (
     <>
-      <button
+      <button id='modal-button'
         className="inline-flex items-center space-x-1 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-white/90 transition-colors duration-200"
         onClick={() => setIsOpen(true)}
         aria-expanded={isOpen}
@@ -48,7 +48,7 @@ const ProjectCardModal = ({ title, description, link }) => {
             onClick={(e) => e.stopPropagation()}
             id="modal"
           >
-            <button
+            <button id='modal-close'
               className="absolute top-4 right-4 rounded-md p-1 hover:bg-gray-800 transition-colors duration-200"
               onClick={() => setIsOpen(false)}
               aria-label="Close modal"
@@ -84,7 +84,7 @@ const ProjectCardModal = ({ title, description, link }) => {
               >
                 Live Demo <ExternalLink className="ml-1 inline-block h-5 w-5" />
               </a>
-              <button
+              <button id='modal-close'
                 className="rounded-md bg-gray-800 px-3 py-1.5 font-medium hover:bg-gray-700 transition-colors duration-200"
                 onClick={() => setIsOpen(false)}
               >

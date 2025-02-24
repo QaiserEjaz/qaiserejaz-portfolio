@@ -242,7 +242,7 @@ const AboutPage = () => {
 
             <div className="flex flex-col lg:flex-row items-center lg:items-start gap-4 lg:gap-4 lg:px-0 w-full">
               <a href="https://drive.google.com/file/d/1KKv-foxK0E6Efk-Xhttd593u2T90dYet/view?usp=sharing" className="w-full lg:w-auto">
-                <button
+                <button id="downloadBtn"
                   data-aos="fade-up"
                   data-aos-duration="800"
                   className="w-full lg:w-auto sm:px-6 py-2 sm:py-3 rounded-lg bg-gradient-to-r from-[#6366f1] to-[#a855f7] text-white font-medium transition-all duration-300 hover:scale-105 flex items-center justify-center lg:justify-start gap-2 shadow-lg hover:shadow-xl animate-bounce-slow"
@@ -252,7 +252,7 @@ const AboutPage = () => {
                 </button>
               </a>
               <a href="#Portofolio" className="w-full lg:w-auto">
-                <button
+                <button id="viewProjectsBtn"
                   data-aos="fade-up"
                   data-aos-duration="1000"
                   className="w-full lg:w-auto sm:px-6 py-2 sm:py-3 rounded-lg border border-[#a855f7]/50 text-[#a855f7] font-medium transition-all duration-300 hover:scale-105 flex items-center justify-center lg:justify-start gap-2 hover:bg-[#a855f7]/10 animate-bounce-slow delay-200"

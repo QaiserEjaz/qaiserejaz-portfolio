@@ -148,7 +148,7 @@ const CommentForm = memo(function CommentForm({ onSubmit, isSubmitting }) {
                 alt="Profile preview"
                 className="w-16 h-16 rounded-full object-cover border-2 border-indigo-500/50"
               />
-              <button
+              <button id="imageBtn"
                 type="button"
                 onClick={() => {
                   setImagePreview(null);
@@ -170,7 +170,7 @@ const CommentForm = memo(function CommentForm({ onSubmit, isSubmitting }) {
                 accept="image/*"
                 className="hidden"
               />
-              <button
+              <button id="imageBtn"
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
                 className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-indigo-500/20 text-indigo-400 hover:bg-indigo-500/30 transition-all border border-dashed border-indigo-500/50 hover:border-indigo-500 group"
@@ -186,7 +186,7 @@ const CommentForm = memo(function CommentForm({ onSubmit, isSubmitting }) {
         </div>
       </div>
 
-      <button
+      <button id="submitBtn"
         type="submit"
         disabled={isSubmitting}
         data-aos="fade-up"

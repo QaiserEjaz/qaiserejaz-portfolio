@@ -4,7 +4,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import "./index.css";
 import { AnimatePresence } from 'framer-motion';
 import PropTypes from 'prop-types';
-
+import { SpeedInsights } from "@vercel/speed-insights/react"
 
 import Home from "./Pages/Home";
 import About from "./Pages/About";
@@ -108,8 +108,9 @@ function App() {
     }
   );
 
-  return <RouterProvider router={router} />;
-
+  return (
+  <RouterProvider router={router} />
+  )
 }
 
 export default App;

@@ -206,7 +206,7 @@ const WorkExperience = () => {
 
                             {/* View Certificate Button (Conditional Rendering) */}
                             {work.hasCertificate && (
-                                <button
+                                <button id="view-certificate"
                                     onClick={() => fetchCertificate(work.position)}
                                     className="mt-4 px-4 py-2 bg-[#6366f1] text-white rounded-lg hover:bg-[#4f46e5] transition-all duration-300"
                                 >
@@ -221,7 +221,7 @@ const WorkExperience = () => {
             {isCertificateModalOpen && certificateUrl && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80">
                     <div className=" p-4 top-6 rounded-lg relative w-3/4 md:w-1/2">
-                        <button onClick={() => setIsCertificateModalOpen(false)} className="absolute top-5 right-5 text-white bg-gray-600 rounded-full p-1 hover:bg-gray-800 transition-all duration-300 h-9 w-9 flex items-center justify-center">
+                        <button id="close-modal" onClick={() => setIsCertificateModalOpen(false)} className="absolute top-5 right-5 text-white bg-gray-600 rounded-full p-1 hover:bg-gray-800 transition-all duration-300 h-9 w-9 flex items-center justify-center">
                             X
                         </button>
                         <img src={certificateUrl} alt="Certificate" className="max-w-full max-h-[80vh] rounded-lg mx-auto "/>
