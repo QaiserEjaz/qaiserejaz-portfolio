@@ -74,15 +74,23 @@ const Navbar = () => {
                         : "bg-transparent"
                 }`}
         >
-            <div className="mx-auto px-4 sm:px-6 lg:px-[10%]">
+            <div className="mx-auto px-4 sm:px-[5%] md:px-[5%] lg:px-[9%] xl:px-[7%] 2xl:px-[10%]">
                 <div className="flex items-center justify-between h-16">
                     {/* Logo */}
                     <div className="flex-shrink-0">
                         <a
                             href="#Home"
                             onClick={(e) => scrollToSection(e, "#Home")}
-                            className="text-xl font-bold bg-gradient-to-r from-[#a855f7] to-[#6366f1] bg-clip-text text-transparent"
+                            className="text-xl flex font-bold bg-gradient-to-r from-[#a855f7] to-[#6366f1] bg-clip-text text-transparent"
                         >
+                            {/* <img
+                                // src="/Myfavicon/favicon-96x96.png"
+                                src="/Myfavicon/favicon2.png"
+                                alt="Qaiser Ejaz Logo"
+                                className="h-8 w-8 mr-2 border color border-white/10 rounded-full object-cover
+                                bg-gradient-to-r from-[#a855f7] to-[#6366f1] bg-clip-text text-transparent"
+                                // Adjust size and spacing
+                            /> */}
                             Qaiser Ejaz
                         </a>
                     </div>

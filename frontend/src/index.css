@@ -104,4 +104,35 @@ body {
 	 }
 	 .animate-shine {
    animation: shine 1.5s ease-in-out infinite;
- } */
+ } 
+*/
+
+
+/* Existing styles remain, update/add these */
+.anim,
+.anim svg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: -10; /* Behind content */
+}
+
+.anim path {
+  stroke-width: 0.5px; /* Thinner lines */
+}
+
+/* Ensure proper layering and full-page context */
+body {
+  /* background: #030014 radial-gradient(circle at center, rgba(139, 92, 246, 0.1) 0%, #030014 70%); */
+  scroll-behavior: smooth !important;
+  position: relative;
+  min-height: 100vh;
+}
+
+/* Container for content stays above */
+/* .min-h-screen {
+  position: relative;
+  z-index: 10;
+} */

@@ -12,9 +12,10 @@ Welcome to my portfolio website repository! I'm Qaiser Ejaz, a passionate develo
 - Lucide Icons
 - Material UI  
 - SweetAlert2  
+- Animejs
 
 **Website Link:**  
-[https://www.qaiser-ejaz.vercel.app/](https://www.qaiser-ejaz.vercel.app/)  
+[https://www.qaiserejaz-portfolio.vercel.app/](https://www.qaiserejaz-portfolio.vercel.app/)  
 
 We would appreciate it if you decide to use this project. Please include credit when using it. Thank you! 🙏  
 

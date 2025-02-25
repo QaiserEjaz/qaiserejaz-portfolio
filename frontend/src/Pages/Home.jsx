@@ -97,7 +97,7 @@ const TYPING_SPEED = 100;
 const ERASING_SPEED = 50;
 const PAUSE_DURATION = 2000;
 const WORDS = ["Computer Systems Engineer", "Tech Enthusiast"];
-const TECH_STACK = ["Javascript", "React", "Node.js", "Tailwind", "Bootstrap", "MongoDB", "Express.js", "Git", "REST API", "Firebase", "Vercel"];
+const TECH_STACK = ["Javascript", "React", "Tailwind", "Bootstrap", "Node.js", "MongoDB", "Express.js", "Git", "REST API", "Firebase", "Vercel"];
 const SOCIAL_LINKS = [
   { icon: GitHub, link: "https://github.com/QaiserEjaz" },
   { icon: LinkedIn, link: "https://www.linkedin.com/in/qaiserejaz1/" },
