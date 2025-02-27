@@ -170,8 +170,8 @@ const Home = () => {
   // Configuration for the Lottie animation
   const lottieOptions = {
     // src: "https://lottie.host/58753882-bb6a-49f5-a2c0-950eda1e135a/NLbpVqGegK.lottie",
-    src:"/Coding.json",
-    // src:"/Coding4.lottie",
+    // src:"/Coding.json",
+    src:"/Coding4.lottie",
     // src :"https://lottie.host/314f2f76-1eee-4e9c-8a4a-9c533fe7568e/y5BCzVhs1I.lottie",
     // src:"https://lottie.host/f694b36f-85d3-4714-8552-59871431c8e8/29mWnfzAk9.lottie",
     // src:"https://lottie.host/628ba23e-5ce5-40c9-8e8c-3e3e4c9a07f5/iVSLArzs25.lottie",
