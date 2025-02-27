@@ -4,7 +4,8 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import "./index.css";
 import { AnimatePresence } from 'framer-motion';
 import PropTypes from 'prop-types';
-import { SpeedInsights } from "@vercel/speed-insights/react"
+import { SpeedInsights } from "@vercel/speed-insights/react";
+import { Analytics } from "@vercel/analytics/react"
 
 import Home from "./Pages/Home";
 import About from "./Pages/About";
@@ -14,7 +15,6 @@ import Portofolio from "./Pages/Portofolio";
 import ContactPage from "./Pages/Contact";
 import ProjectDetails from "./components/ProjectDetail";
 import WelcomeScreen from "./Pages/WelcomeScreen";
-// import ContactPage from "./Pages/Contact";
 import ThankYou from "./Pages/ThankYou";
 import { Speed } from '@mui/icons-material';
 
@@ -98,7 +98,8 @@ function App() {
   return (
     <>
       <RouterProvider router={router} />
-      <SpeedInsights />
+       <SpeedInsights />
+       <Analytics />
     </>
   )
 }
