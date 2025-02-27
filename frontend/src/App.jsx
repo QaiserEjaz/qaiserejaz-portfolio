@@ -109,6 +109,7 @@
 
 
 
+
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
@@ -143,7 +144,7 @@ const LandingPage = ({ showWelcome, setShowWelcome }) => {
           <AnimatedBackground />
           <Home />
           <About />
-          <Portofolio />
+          <Portofolio /> {/* Images from Google Photos loaded here */}
           <ContactPage />
           <footer className="text-center">
             <hr className="my-3 border-gray-400 opacity-15 sm:mx-auto lg:my-6" />
@@ -181,7 +182,7 @@ const ProjectPageLayout = () => (
 function App() {
   const [showWelcome, setShowWelcome] = useState(true);
 
-  // Set CSP meta tag with expanded img-src for Imgur, WASM, Firebase, and Analytics
+  // Set CSP meta tag with expanded img-src for Google Photos, Imgur, WASM, Firebase, and Analytics
   useEffect(() => {
     const meta = document.createElement('meta');
     meta.httpEquiv = "Content-Security-Policy";
@@ -190,13 +191,13 @@ function App() {
       script-src 'self' 'unsafe-eval' https://*.vercel.app https://*.firebaseio.com https://*.firebasedatabase.app https://www.googletagmanager.com;
       connect-src 'self' wss://*.firebasedatabase.app https://*.firebaseio.com https://firestore.googleapis.com https://firebaseinstallations.googleapis.com https://cdn.jsdelivr.net https://unpkg.com https://www.google-analytics.com;
       style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
-      img-src 'self' data: https://www.google.com https://i.imgur.com;
+      img-src 'self' data: https://www.google.com https://i.imgur.com https://photos.google.com;
       font-src 'self' https://fonts.gstatic.com;
       object-src 'none';
       base-uri 'self';
       form-action 'self';
       worker-src 'self';
-    `.replace(/\n/g, ' ').trim(); // Added https://i.imgur.com to img-src for portfolio images
+    `.replace(/\n/g, ' ').trim(); // Added https://photos.google.com to img-src for portfolio images
     document.head.appendChild(meta);
     return () => document.head.removeChild(meta);
   }, []);
