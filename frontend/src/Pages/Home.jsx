@@ -286,6 +286,7 @@
 
 
 
+
 import { useState, useEffect, useCallback, memo } from "react";
 import PropTypes from "prop-types";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
@@ -376,18 +377,13 @@ const SocialLink = memo(({ icon: Icon, link, name }) => (
       href={link}
       target="_blank"
       rel="noopener noreferrer"
-      aria-label={`Visit my ${name} profile`} // Accessibility: discernible name for the link
-    >
-      <button
-        id="social-button"
-        className="relative p-2"
-        aria-label={`Navigate to ${name}`} // Accessibility: accessible name for the button
+      aria-label={`Visit my ${name} profile`}
+      className="relative p-2 block"
       >
         <div className="absolute inset-0 bg-gradient-to-r from-[#6366f1] to-[#a855f7] rounded-xl blur opacity-20 group-hover:opacity-40 transition duration-300"></div>
         <div className="relative rounded-xl bg-black/50 backdrop-blur-xl p-2 flex items-center justify-center border border-white/10 group-hover:border-white/20 transition-all duration-300">
           <Icon className="w-5 h-5 text-gray-400 group-hover:text-white transition-colors" />
         </div>
-      </button>
     </a>
     {/* Tooltip for visual feedback, not relied upon for accessibility */}
     <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 text-xs text-white bg-gray-900 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap">
