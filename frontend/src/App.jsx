@@ -106,7 +106,6 @@
 // export default App;
 
 
-
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
@@ -179,21 +178,22 @@ const ProjectPageLayout = () => (
 function App() {
   const [showWelcome, setShowWelcome] = useState(true);
 
-  // Set CSP meta tag with broader allowances for Firebase, Lottie, and Analytics
+  // Set CSP meta tag with allowances for WASM, Firebase, Lottie, and Analytics
   useEffect(() => {
     const meta = document.createElement('meta');
     meta.httpEquiv = "Content-Security-Policy";
     meta.content = `
       default-src 'self';
-      script-src 'self' https://*.vercel.app https://*.firebaseio.com https://*.firebasedatabase.app https://www.googletagmanager.com;
-      connect-src 'self' wss://*.firebasedatabase.app https://*.firebaseio.com https://firestore.googleapis.com https://firebaseinstallations.googleapis.com https://cdn.jsdelivr.net https://unpkg.com;
+      script-src 'self' 'unsafe-eval' https://*.vercel.app https://*.firebaseio.com https://*.firebasedatabase.app https://www.googletagmanager.com;
+      connect-src 'self' wss://*.firebasedatabase.app https://*.firebaseio.com https://firestore.googleapis.com https://firebaseinstallations.googleapis.com https://cdn.jsdelivr.net https://unpkg.com https://www.google-analytics.com;
       style-src 'self' 'unsafe-inline';
       img-src 'self' data: https://www.google.com;
       font-src 'self';
       object-src 'none';
       base-uri 'self';
       form-action 'self';
-    `.replace(/\n/g, ' ').trim(); // Expanded CSP to allow necessary resources
+      worker-src 'self';
+    `.replace(/\n/g, ' ').trim(); // Added 'unsafe-eval' for WASM, google-analytics.com for Analytics
     document.head.appendChild(meta);
     return () => document.head.removeChild(meta); // Cleanup on unmount
   }, []);

@@ -469,6 +469,7 @@ const Home = () => {
     autoplay: true,
     style: { width: "100%", height: "100%", willChange: "transform" }, // Hint for optimization
     className: `w-full h-full transition-transform duration-300 ${isHovering ? "scale-105 rotate-1" : "scale-100 rotate-0"}`, // Faster transition, minimal scaling
+    wasmurl: "/dotlottie-player.wasm", // Local WASM path
   };
 
   return (
