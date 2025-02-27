@@ -124,6 +124,7 @@ const Navbar = () => {
               className={`p-2 text-[#e2d3fd] hover:text-white transition-transform duration-300 ${
                 isOpen ? "rotate-90 scale-125" : "rotate-0 scale-100"
               }`}
+              aria-label={isOpen ? "Close mobile menu" : "Open mobile menu"}
             >
               {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
