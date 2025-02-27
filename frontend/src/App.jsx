@@ -16,7 +16,6 @@ import ContactPage from "./Pages/Contact";
 import ProjectDetails from "./components/ProjectDetail";
 import WelcomeScreen from "./Pages/WelcomeScreen";
 import ThankYou from "./Pages/ThankYou";
-import { Speed } from '@mui/icons-material';
 
 const LandingPage = ({ showWelcome, setShowWelcome }) => {
   return (
