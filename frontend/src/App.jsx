@@ -105,7 +105,6 @@
 
 // export default App;
 
-
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
@@ -178,7 +177,7 @@ const ProjectPageLayout = () => (
 function App() {
   const [showWelcome, setShowWelcome] = useState(true);
 
-  // Set CSP meta tag with allowances for WASM, Firebase, Lottie, and Analytics
+  // Set CSP meta tag with allowances for WASM, Firebase, Analytics, and Google Fonts
   useEffect(() => {
     const meta = document.createElement('meta');
     meta.httpEquiv = "Content-Security-Policy";
@@ -186,16 +185,16 @@ function App() {
       default-src 'self';
       script-src 'self' 'unsafe-eval' https://*.vercel.app https://*.firebaseio.com https://*.firebasedatabase.app https://www.googletagmanager.com;
       connect-src 'self' wss://*.firebasedatabase.app https://*.firebaseio.com https://firestore.googleapis.com https://firebaseinstallations.googleapis.com https://cdn.jsdelivr.net https://unpkg.com https://www.google-analytics.com;
-      style-src 'self' 'unsafe-inline';
+      style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
       img-src 'self' data: https://www.google.com;
-      font-src 'self';
+      font-src 'self' https://fonts.gstatic.com;
       object-src 'none';
       base-uri 'self';
       form-action 'self';
       worker-src 'self';
-    `.replace(/\n/g, ' ').trim(); // Added 'unsafe-eval' for WASM, google-analytics.com for Analytics
+    `.replace(/\n/g, ' ').trim(); // Added style-src and font-src for Google Fonts
     document.head.appendChild(meta);
-    return () => document.head.removeChild(meta); // Cleanup on unmount
+    return () => document.head.removeChild(meta);
   }, []);
 
   const router = createBrowserRouter(
