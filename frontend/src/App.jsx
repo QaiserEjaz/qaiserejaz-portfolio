@@ -107,9 +107,8 @@
 
 
 
-
 /* eslint-disable react/prop-types */
-import { useState, useEffect } from 'react'; // Added useEffect for CSP
+import { useState, useEffect } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import "./index.css";
 import { AnimatePresence } from 'framer-motion';
@@ -147,7 +146,7 @@ const LandingPage = ({ showWelcome, setShowWelcome }) => {
           <footer className="text-center">
             <hr className="my-3 border-gray-400 opacity-15 sm:mx-auto lg:my-6" />
             <span className="block text-sm pb-4 text-gray-300 dark:text-gray-200">
-              
+              {/* Contrast fix: text-gray-500 to text-gray-300, dark:text-gray-400 to dark:text-gray-200 */}
               © 2025{" "}
               <a
                 href="https://flowbite.com/"
@@ -180,18 +179,21 @@ const ProjectPageLayout = () => (
 function App() {
   const [showWelcome, setShowWelcome] = useState(true);
 
-  // Set CSP meta tag for XSS protection
+  // Set CSP meta tag with broader allowances for Firebase, Lottie, and Analytics
   useEffect(() => {
     const meta = document.createElement('meta');
     meta.httpEquiv = "Content-Security-Policy";
     meta.content = `
       default-src 'self';
-      script-src 'self' https://*.vercel.app https://*.firebaseio.com https://*.firebasedatabase.app;
-      connect-src 'self' wss://*.firebasedatabase.app https://*.firebaseio.com;
+      script-src 'self' https://*.vercel.app https://*.firebaseio.com https://*.firebasedatabase.app https://www.googletagmanager.com;
+      connect-src 'self' wss://*.firebasedatabase.app https://*.firebaseio.com https://firestore.googleapis.com https://firebaseinstallations.googleapis.com https://cdn.jsdelivr.net https://unpkg.com;
       style-src 'self' 'unsafe-inline';
-      img-src 'self' data:;
+      img-src 'self' data: https://www.google.com;
       font-src 'self';
-    `.replace(/\n/g, ' ').trim(); // Basic CSP allowing Firebase WebSockets
+      object-src 'none';
+      base-uri 'self';
+      form-action 'self';
+    `.replace(/\n/g, ' ').trim(); // Expanded CSP to allow necessary resources
     document.head.appendChild(meta);
     return () => document.head.removeChild(meta); // Cleanup on unmount
   }, []);
@@ -210,7 +212,6 @@ function App() {
         path: "/thank-you", // Add route for ThankYouPage
         element: <ThankYou />,
       },
-
     ],
     {
       future: {
@@ -234,5 +235,3 @@ function App() {
 }
 
 export default App;
-
-
