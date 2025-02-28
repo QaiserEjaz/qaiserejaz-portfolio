@@ -14,15 +14,6 @@ const socialLinks = [
     gradient: "from-[#0A66C2] to-[#0077B5]",
     isPrimary: true
   },
-  // {
-  //   name: "GitHub",
-  //   displayName: "Github",
-  //   subText: "@QaiserEjaz",
-  //   icon: GitHub,
-  //   url: "https://github.com/QaiserEjaz",
-  //   color: "#ffffff",
-  //   gradient: "from-[#333] to-[#24292e]"
-  // },
   {
     name: "Facebook",
     displayName: "Facebook",
