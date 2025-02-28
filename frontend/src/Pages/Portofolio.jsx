@@ -130,13 +130,15 @@ export default function FullWidthTabs() {
   const [certificates, setCertificates] = useState([]);
   const [showAllProjects, setShowAllProjects] = useState(false);
   const [showAllCertificates, setShowAllCertificates] = useState(false);
+  const [firebaseError, setFirebaseError] = useState(null); // Added state for Firebase errors
   const isMobile = window.innerWidth < 768;
-  const initialItems = isMobile ? 4 : 6;
+  const initialItems = isMobile ? 4 : 6; // Responsive initial items
 
   useEffect(() => {
     AOS.init({ once: false });
   }, []);
 
+  // Fetch data from Firestore with enhanced error handling and user feedback
   const fetchData = useCallback(async () => {
     try {
       const projectCollection = collection(db, "projects");
@@ -160,8 +162,14 @@ export default function FullWidthTabs() {
 
       localStorage.setItem("projects", JSON.stringify(projectData));
       localStorage.setItem("certificates", JSON.stringify(certificateData));
+      setFirebaseError(null); // Clear any previous errors on success
     } catch (error) {
-      console.error("Error fetching data:", error);
+      console.error("Error fetching data from Firestore:", error);
+      setFirebaseError("Failed to load portfolio data. Displaying cached content if available."); // Enhanced user feedback
+      const cachedProjects = JSON.parse(localStorage.getItem("projects") || "[]");
+      const cachedCertificates = JSON.parse(localStorage.getItem("certificates") || "[]");
+      setProjects(cachedProjects);
+      setCertificates(cachedCertificates);
     }
   }, []);
 
@@ -169,6 +177,7 @@ export default function FullWidthTabs() {
     fetchData();
   }, [fetchData]);
 
+  // Toggle visibility of additional items
   const toggleShowMore = useCallback((type) => {
     if (type === "projects") {
       setShowAllProjects((prev) => !prev);
@@ -189,6 +198,7 @@ export default function FullWidthTabs() {
     setValue(newValue);
   };
 
+  // Touch handlers (unchanged)
   const handleTouchStart = (e) => {
     setTouchStartX(e.touches[0].clientX);
     setTouchCurrentX(e.touches[0].clientX);
@@ -218,16 +228,20 @@ export default function FullWidthTabs() {
 
   return (
     <div className="md:px-[10%] px-[5%] w-full sm:mt-0 mt-[3rem] bg-[#030014] overflow-hidden" id="Portofolio">
+      {/* Main container with responsive padding and top margin */}
       <div className="text-center pb-10" data-aos="fade-up" data-aos-duration="1000">
         <h2 className="inline-block text-3xl md:text-5xl font-bold text-center mx-auto text-transparent bg-clip-text bg-gradient-to-r from-[#6366f1] to-[#a855f7]">
+          {/* Portfolio title with gradient text */}
           <span style={{ color: "#6366f1", backgroundImage: "linear-gradient(45deg, #6366f1 10%, #a855f7 93%)", WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent" }}>
             Portfolio Showcase
           </span>
         </h2>
         <div className="mt-2 text-gray-400 max-w-2xl mx-auto text-base sm:text-md flex items-center justify-center gap-2" data-aos="zoom-in-up" data-aos-duration="800">
+          {/* Subtext with responsive size and animation */}
           <div className="relative group">
             <div className="absolute -inset-0.5 bg-gradient-to-r from-[#6366f1] to-[#a855f7] rounded-full blur opacity-30 group-hover:opacity-50 transition duration-1000"></div>
             <div className="relative px-3 sm:px-4 py-2 rounded-full bg-black/40 backdrop-blur-xl border border-white/10">
+              {/* Subtext container with backdrop blur */}
               <span className="bg-gradient-to-r from-[#6366f1] to-[#a855f7] text-transparent bg-clip-text sm:text-sm text-[0.7rem] font-medium flex items-center">
                 <AutoAwesomeOutlined className="w-5 h-5 mr-2 text-purple-400" />
                 Explore my journey through projects, certifications, and technical expertise. Each section represents a milestone in my continuous learning path.
@@ -238,7 +252,16 @@ export default function FullWidthTabs() {
         </div>
       </div>
 
+      {/* Display Firebase error if fetch fails */}
+      {firebaseError && (
+        <div className="text-center text-red-400 mb-4 text-sm sm:text-base" data-aos="fade-up">
+          {/* Responsive error message */}
+          {firebaseError}
+        </div>
+      )}
+
       <Box sx={{ width: "100%" }}>
+        {/* AppBar (Unchanged) */}
         <AppBar
           position="static"
           elevation={0}
@@ -267,8 +290,8 @@ export default function FullWidthTabs() {
             onChange={handleChange}
             textColor="secondary"
             indicatorColor="secondary"
-            variant={isMobile ? "scrollable" : "fullWidth"} // Scrollable on mobile, fullWidth on larger screens
-            scrollButtons={isMobile ? "auto" : false} // Show scroll buttons only on mobile
+            variant={isMobile ? "scrollable" : "fullWidth"}
+            scrollButtons={isMobile ? "auto" : false}
             sx={{
               minHeight: "70px",
               "& .MuiTab-root": {
@@ -281,7 +304,7 @@ export default function FullWidthTabs() {
                 zIndex: 1,
                 margin: "8px",
                 borderRadius: "12px",
-                minWidth: { xs: "auto", md: "160px" }, // Allow tabs to shrink on mobile, fixed width on desktop
+                minWidth: { xs: "auto", md: "160px" },
                 "&:hover": {
                   color: "#ffffff",
                   backgroundColor: "rgba(139, 92, 246, 0.1)",
@@ -297,12 +320,12 @@ export default function FullWidthTabs() {
               },
               "& .MuiTabs-indicator": { height: 0 },
               "& .MuiTabs-flexContainer": {
-                justifyContent: isMobile ? "flex-start" : "center", // Left-align on mobile, center on desktop
+                justifyContent: isMobile ? "flex-start" : "center",
                 gap: "8px",
               },
               "& .MuiTabs-scroller": {
                 overflowX: isMobile ? "auto" : "visible",
-                WebkitOverflowScrolling: "touch", // Smooth scrolling on mobile
+                WebkitOverflowScrolling: "touch",
               },
             }}
             onTouchStart={handleTouchStart}
@@ -318,6 +341,7 @@ export default function FullWidthTabs() {
           </Tabs>
         </AppBar>
 
+        {/* SwipeableCards (Unchanged) */}
         <SwipeableCards index={value} onChangeIndex={setValue}>
           <TabPanel value={value} index={0} dir={theme.direction}>
             <WorkExperience />
