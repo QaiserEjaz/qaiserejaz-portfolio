@@ -77,7 +77,7 @@ function App() {
     meta.content = `
       default-src 'self';
       script-src 'self' 'unsafe-eval' https://*.vercel.app https://*.firebaseio.com https://*.firebasedatabase.app https://www.googletagmanager.com;
-      connect-src 'self' wss://*.firebasedatabase.app https://*.firebaseio.com https://firestore.googleapis.com https://firebaseinstallations.googleapis.com https://cdn.jsdelivr.net https://unpkg.com https://www.google-analytics.com;
+      connect-src 'self' wss://*.firebasedatabase.app https://*.firebaseio.com https://firestore.googleapis.com https://firebaseinstallations.googleapis.com https://cdn.jsdelivr.net https://unpkg.com https://www.google-analytics.com https://formsubmit.co https://formsubmit.com;
       style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
       img-src 'self' data: https://www.google.com https://i.imgur.com https://photos.google.com;
       font-src 'self' https://fonts.gstatic.com;
