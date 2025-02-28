@@ -80,7 +80,7 @@ const ProjectStats = ({ project }) => {
         </div>
         <div className="flex-grow">
           <div className="text-lg md:text-xl font-semibold text-purple-200">{featuresCount}</div>
-          <div className="text-[10px] md:text-xs text-gray-400">Key Feactures</div>
+          <div className="text-[10px] md:text-xs text-gray-400">Key Features</div> {/* Translated "Feactures" to "Features" */}
         </div>
       </div>
     </div>
@@ -94,13 +94,14 @@ ProjectStats.propTypes = {
   }).isRequired,
 };
 
+// Handle GitHub link click with SweetAlert for private repositories
 const handleGithubClick = (githubLink) => {
   if (githubLink === 'Private') {
     Swal.fire({
       icon: 'info',
-      title: 'Source Code Private',
-      text: 'Maaf, source code untuk proyek ini bersifat privat.',
-      confirmButtonText: 'Mengerti',
+      title: 'Private Source Code', // Translated from "Source Code Private"
+      text: 'Sorry, the source code for this project is private.', // Translated from "Maaf, source code untuk proyek ini bersifat privat."
+      confirmButtonText: 'Understood', // Translated from "Mengerti"
       confirmButtonColor: '#3085d6',
       background: '#030014',
       color: '#ffffff'
@@ -158,7 +159,8 @@ const ProjectDetails = () => {
       <div className="relative">
         <div className="max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-16">
           <div className="flex items-center space-x-2 md:space-x-4 mb-8 md:mb-12 animate-fadeIn">
-            <button id="back-button"
+            <button
+              id="back-button"
               onClick={() => navigate(-1)}
               className="group inline-flex items-center space-x-1.5 md:space-x-2 px-3 md:px-5 py-2 md:py-2.5 bg-white/5 backdrop-blur-xl rounded-xl text-white/90 hover:bg-white/10 transition-all duration-300 border border-white/10 hover:border-white/20 text-sm md:text-base"
             >
@@ -241,13 +243,13 @@ const ProjectDetails = () => {
                 <img
                   src={project.Img}
                   alt={project.Title}
-                  className="w-full  object-cover transform transition-transform duration-700 will-change-transform group-hover:scale-105"
+                  className="w-full object-cover transform transition-transform duration-700 will-change-transform group-hover:scale-105"
                   onLoad={() => setIsImageLoaded(true)}
                 />
                 <div className="absolute inset-0 border-2 border-white/0 group-hover:border-white/10 transition-colors duration-300 rounded-2xl" />
               </div>
 
-              {/* Fitur Utama */}
+              {/* Key Features */}
               <div className="bg-white/[0.02] backdrop-blur-xl rounded-2xl p-8 border border-white/10 space-y-6 hover:border-white/20 transition-colors duration-300 group">
                 <h3 className="text-xl font-semibold text-white/90 flex items-center gap-3">
                   <Star className="w-5 h-5 text-yellow-400 group-hover:rotate-[20deg] transition-transform duration-300" />
