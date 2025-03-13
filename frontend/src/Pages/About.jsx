@@ -231,7 +231,10 @@ const AboutPage = () => {
             </p>
             <div className="flex flex-col lg:flex-row items-center lg:items-start gap-4 lg:gap-4 lg:px-0 w-full">
               {/* Buttons stack on mobile, row on lg, full-width on mobile adjusts to content on lg */}
-              <a href="https://drive.google.com/file/d/1KKv-foxK0E6Efk-Xhttd593u2T90dYet/view?usp=sharing" className="w-full lg:w-auto">
+              <a 
+                href="https://drive.google.com/file/d/13-pu2ByviqqOyVpmoZfqfhe2nd16G9z0/view?usp=sharing" 
+                className="w-full lg:w-auto"
+              >
                 <button
                   id="downloadBtn"
                   data-aos="fade-up"
