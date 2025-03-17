@@ -162,7 +162,7 @@ const WorkExperience = () => {
               <div className="text-xs md:text-sm text-gray-300 mb-4">{work.description}</div>
               {work.project && (
                 <>
-                  <span className="text-white font-semibold mt-2 text-xs md:text-sm">Project: {work.project}</span>
+                  <span className="text-white font-semibold mt-2 text-xs md:text-sm">Project: {work.project} </span>
                   <span className="text-xs md:text-sm text-gray-300">{work.projectDescription}</span>
                 </>
               )}
