@@ -155,18 +155,18 @@ const WelcomeScreen = ({ onLoadingComplete }) => {
                     <span data-aos="fade-right" data-aos-delay="100" className="inline-block px-2 bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent">
                       Welcome
                     </span>{" "}
-                    <span data-aos="fade-right" data-aos-delay="200" className="inline-block px-2 bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent">
+                    <span data-aos="fade-right" data-aos-delay="150" className="inline-block px-2 bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent">
                       To
                     </span>{" "}
-                    <span data-aos="fade-right" data-aos-delay="300" className="inline-block px-2 bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent">
+                    <span data-aos="fade-right" data-aos-delay="170" className="inline-block px-2 bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent">
                       My
                     </span>
                   </div>
                   <div>
-                    <span data-aos="fade-up" data-aos-delay="400" className="inline-block px-2 bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                    <span data-aos="fade-up" data-aos-delay="250" className="inline-block px-2 bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
                       Portfolio
                     </span>{" "}
-                    <span data-aos="fade-up" data-aos-delay="500" className="inline-block px-2 bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                    <span data-aos="fade-up" data-aos-delay="300" className="inline-block px-2 bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
                       Website
                     </span>
                   </div>

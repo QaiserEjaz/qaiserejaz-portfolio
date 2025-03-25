@@ -108,7 +108,7 @@ const ContactPage = () => {
   };
 
   return (
-    <>
+    <section id="Contact" className="py-16 relative">
       <div className="text-center mt-10 sm:mt-[5%] mb-2 px-[5%] sm:px-0">
         <h2
           data-aos="fade-down"
@@ -171,61 +171,78 @@ const ContactPage = () => {
               {/* FormSubmit Configuration */}
               <input type="hidden" name="_template" value="table" />
               <input type="hidden" name="_captcha" value="false" />
-
+              <label htmlFor="name" className="hidden text-sm font-medium text-gray-300 mb-1">
+                  Name
+                </label>
               <div
                 data-aos="fade-up"
                 data-aos-delay="100"
                 className="relative group"
               >
                 <User className="absolute left-3 sm:left-4 top-3 sm:top-4 w-4 h-4 sm:w-5 sm:h-5 text-gray-400 group-focus-within:text-[#6366f1] transition-colors" />
+                
                 <input
                   type="text"
+                  id="name"
                   name="name"
                   placeholder="Your Name"
                   value={formData.name}
                   onChange={handleChange}
                   disabled={isSubmitting}
+                  autoComplete="name"
                   className="w-full p-3 sm:p-4 pl-10 sm:pl-12 bg-white/10 rounded-xl border border-white/20 placeholder-gray-500 text-white focus:outline-none focus:ring-2 focus:ring-[#6366f1]/30 transition-all duration-300 hover:border-[#6366f1]/30 disabled:opacity-50 text-xs sm:text-sm"
                   required
                 />
               </div>
+              <label htmlFor="email" className="hidden text-sm font-medium text-gray-300 mb-1">
+                Email
+              </label>
               <div
                 data-aos="fade-up"
-                data-aos-delay="200"
+                data-aos-delay="130"
                 className="relative group"
               >
                 <Mail className="absolute left-3 sm:left-4 top-3 sm:top-4 w-4 h-4 sm:w-5 sm:h-5 text-gray-400 group-focus-within:text-[#6366f1] transition-colors" />
                 <input
                   type="email"
+                  id="email"
                   name="email"
                   placeholder="Your Email"
                   value={formData.email}
                   onChange={handleChange}
                   disabled={isSubmitting}
+                  autoComplete="email"
                   className="w-full p-3 sm:p-4 pl-10 sm:pl-12 bg-white/10 rounded-xl border border-white/20 placeholder-gray-500 text-white focus:outline-none focus:ring-2 focus:ring-[#6366f1]/30 transition-all duration-300 hover:border-[#6366f1]/30 disabled:opacity-50 text-xs sm:text-sm"
                   required
                 />
               </div>
+              <label htmlFor="message" className="hidden text-sm font-medium text-gray-300 mb-1">
+                Message
+              </label>
               <div
                 data-aos="fade-up"
-                data-aos-delay="300"
+                data-aos-delay="170"
                 className="relative group"
               >
                 <MessageSquare className="absolute left-3 sm:left-4 top-3 sm:top-4 w-4 h-4 sm:w-5 sm:h-5 text-gray-400 group-focus-within:text-[#6366f1] transition-colors" />
                 <textarea
+                  id="message"
                   name="message"
                   placeholder="Your Message"
                   value={formData.message}
                   onChange={handleChange}
                   disabled={isSubmitting}
+                  autoComplete="off"
                   className="w-full resize-none p-3 sm:p-4 pl-10 sm:pl-12 bg-white/10 rounded-xl border border-white/20 placeholder-gray-500 text-white focus:outline-none focus:ring-2 focus:ring-[#6366f1]/30 transition-all duration-300 hover:border-[#6366f1]/30 h-[6rem] sm:h-[9.9rem] disabled:opacity-50 text-xs sm:text-sm"
                   required
+                  rows={4}
                 />
               </div>
+
               <button
                 id="submit"
                 data-aos="fade-up"
-                data-aos-delay="400"
+                data-aos-delay="200"
                 type="submit"
                 disabled={isSubmitting}
                 className="w-full bg-gradient-to-r from-[#6366f1] to-[#a855f7] text-white py-3 sm:py-4 rounded-xl font-semibold transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-[#6366f1]/20 active:scale-[0.98] flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 text-xs sm:text-sm"
@@ -249,7 +266,7 @@ const ContactPage = () => {
           </div>
         </div>
       </div>
-    </>
+    </section>
   );
 };
 

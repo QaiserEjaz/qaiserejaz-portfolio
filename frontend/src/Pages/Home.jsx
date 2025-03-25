@@ -22,7 +22,7 @@ const StatusBadge = memo(() => (
 StatusBadge.displayName = "StatusBadge";
 
 const MainTitle = memo(() => (
-  <div className="space-y-2" data-aos="fade-up" data-aos-delay="300">
+  <div className="space-y-2" data-aos="fade-up" data-aos-delay="120">
     <h1 className="text-4xl sm:text-5xl md:text-5xl lg:text-5xl xl:text-6xl font-bold tracking-tight">
       <span className="relative inline-block">
         <span className="absolute -inset-2 bg-gradient-to-r from-[#6366f1] to-[#a855f7] blur-2xl opacity-20"></span>
@@ -153,21 +153,21 @@ const Home = () => {
             <div className="w-full lg:w-1/2 space-y-6 text-left order-1 lg:order-1" data-aos="fade-right">
               <StatusBadge />
               <MainTitle />
-              <div className="h-6 flex items-center" data-aos="fade-up" data-aos-delay="100">
+              <div className="h-6 flex items-center" data-aos="fade-up" data-aos-delay="160">
                 <span className="text-base sm:text-lg md:text-xl bg-gradient-to-r from-gray-100 to-gray-300 bg-clip-text text-transparent font-light">
                   {text}
                 </span>
                 <span className="w-1 h-5 bg-gradient-to-t from-[#6366f1] to-[#a855f7] ml-1 animate-blink"></span>
               </div>
-              <p className="text-sm sm:text-base text-gray-400 max-w-md leading-relaxed font-light" data-aos="fade-up" data-aos-delay="200">
+              <p className="text-sm sm:text-base text-gray-400 max-w-md leading-relaxed font-light" data-aos="fade-up" data-aos-delay="180">
                 Creating Innovative, Functional, and User-Friendly Websites for Digital Solutions.
               </p>
-              <div className="flex flex-wrap gap-2 justify-start" data-aos="fade-up" data-aos-delay="300">
+              <div className="flex flex-wrap gap-2 justify-start" data-aos="fade-up" data-aos-delay="200">
                 {TECH_STACK.map((tech, index) => (
                   <TechStack key={index} tech={tech} />
                 ))}
               </div>
-              <div className="hidden sm:flex gap-3 justify-start" data-aos="fade-up" data-aos-delay="400">
+              <div className="hidden sm:flex gap-3 justify-start" data-aos="fade-up" data-aos-delay="250">
                 {SOCIAL_LINKS.map((social, index) => (
                   <SocialLink key={index} {...social} />
                 ))}
