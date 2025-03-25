@@ -70,18 +70,17 @@ const ProjectPageLayout = () => (
 function App() {
   const [showWelcome, setShowWelcome] = useState(true);
 
-  // Set CSP meta tag with expanded img-src for Google Photos, Imgur, WASM, Firebase, and Analytics
   useEffect(() => {
     const meta = document.createElement('meta');
     meta.httpEquiv = "Content-Security-Policy";
     meta.content = `
       default-src 'self';
-      script-src 'self' 'unsafe-eval' 'unsafe-inline' https://*.vercel.app https://*.firebaseio.com https://*.firebasedatabase.app https://www.googletagmanager.com https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net;
+      script-src 'self' 'unsafe-eval' 'unsafe-inline' https://*.vercel.app https://*.firebaseio.com https://*.firebasedatabase.app https://www.googletagmanager.com https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://*.adtrafficquality.google;
       connect-src 'self' wss://*.firebasedatabase.app https://*.firebaseio.com https://firestore.googleapis.com https://firebaseinstallations.googleapis.com https://cdn.jsdelivr.net https://unpkg.com https://www.google-analytics.com https://formsubmit.co https://formsubmit.com https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://adservice.google.com https://*.adtrafficquality.google;
       style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
-      img-src 'self' data: https://www.google.com https://i.imgur.com https://photos.google.com https://*.googlesyndication.com https://*.doubleclick.net;
+      img-src 'self' data: https://www.google.com https://i.imgur.com https://photos.google.com https://*.googlesyndication.com https://*.doubleclick.net https://*.adtrafficquality.google;
       font-src 'self' https://fonts.gstatic.com;
-      frame-src 'self' https://*.doubleclick.net https://*.google.com;
+      frame-src 'self' https://*.doubleclick.net https://*.google.com https://*.adtrafficquality.google;
       object-src 'none';
       base-uri 'self';
       form-action 'self';
