@@ -46,14 +46,14 @@
 ## 📸 Portfolio Preview
 
 <div align="center">
-  <img src="/screenshots/home.png" alt="Home Page" width="100%"/>
+  <img src="frontend/public/screenshots/home.png" alt="Home Page" width="100%"/>
   
   <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 10px;">
-    <img src="/screenshots/projects.png" alt="Projects Section" width="100%"/>
-    <img src="/screenshots/skills.png" alt="Skills Section" width="100%"/>
-    <img src="/screenshots/experience.png" alt="Experience Section" width="100%"/>
-    <img src="/screenshots/contact.png" alt="Contact Section" width="100%"/>
+    <img src="frontend/public/screenshots/projects.png" alt="Projects Section" width="100%"/>
+    <img src="frontend/public/screenshots/skills.png" alt="Skills Section" width="100%"/>
+    <img src="frontend/public/screenshots/experience.png" alt="Experience Section" width="100%"/>
     <img src="frontend/public/screenshots/contact.png" alt="Contact Section" width="100%"/>
+    <img src="frontend/public/screenshots/about.png" alt="About Section" width="100%"/>
   </div>
 </div>
 
