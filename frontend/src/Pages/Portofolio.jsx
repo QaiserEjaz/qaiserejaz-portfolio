@@ -139,37 +139,46 @@ export default function FullWidthTabs() {
   }, []);
 
   // Fetch data from Firestore with enhanced error handling and user feedback
+  // Modify the fetchData function
   const fetchData = useCallback(async () => {
     try {
       const projectCollection = collection(db, "projects");
       const certificateCollection = collection(db, "certificates");
-
+  
       const [projectSnapshot, certificateSnapshot] = await Promise.all([
         getDocs(projectCollection),
         getDocs(certificateCollection),
       ]);
-
+  
       const projectData = projectSnapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
         TechStack: doc.data().TechStack || [],
       }));
-
+  
       const certificateData = certificateSnapshot.docs.map((doc) => doc.data());
-
+  
       setProjects(projectData);
       setCertificates(certificateData);
-
-      localStorage.setItem("projects", JSON.stringify(projectData));
-      localStorage.setItem("certificates", JSON.stringify(certificateData));
-      setFirebaseError(null); // Clear any previous errors on success
+  
+      sessionStorage.setItem("projects", JSON.stringify(projectData));
+      sessionStorage.setItem("certificates", JSON.stringify(certificateData));
+      setFirebaseError(null);
     } catch (error) {
       console.error("Error fetching data from Firestore:", error);
-      setFirebaseError("Failed to load portfolio data. Displaying cached content if available."); // Enhanced user feedback
-      const cachedProjects = JSON.parse(localStorage.getItem("projects") || "[]");
-      const cachedCertificates = JSON.parse(localStorage.getItem("certificates") || "[]");
-      setProjects(cachedProjects);
-      setCertificates(cachedCertificates);
+      setFirebaseError("Failed to load portfolio data. Please try again later.");
+  
+      // Try to load from sessionStorage
+      try {
+        const cachedProjects = JSON.parse(sessionStorage.getItem("projects") || "[]");
+        const cachedCertificates = JSON.parse(sessionStorage.getItem("certificates") || "[]");
+        setProjects(cachedProjects);
+        setCertificates(cachedCertificates);
+      } catch (parseError) {
+        console.error("Error parsing cached data:", parseError);
+        setProjects([]);
+        setCertificates([]);
+      }
     }
   }, []);
 
