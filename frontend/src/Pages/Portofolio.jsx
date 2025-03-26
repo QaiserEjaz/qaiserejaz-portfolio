@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
+import crypto from "crypto";
 import { db, collection } from "../firebase";
 import { getDocs } from "firebase/firestore";
 import PropTypes from "prop-types";
@@ -18,6 +19,18 @@ import { AutoAwesomeOutlined, School, Work, Code as CodeIcon, EmojiEvents } from
 import Education from "../components/Education";
 import WorkExperience from "../components/WorkExperience";
 import { useRef } from "react";
+
+const encryptionKey = "your-encryption-key"; // Replace with a secure key
+
+function encrypt(text) {
+  const cipher = crypto.createCipher('aes-256-ctr', encryptionKey);
+  return cipher.update(text, 'utf8', 'hex') + cipher.final('hex');
+}
+
+function decrypt(text) {
+  const decipher = crypto.createDecipher('aes-256-ctr', encryptionKey);
+  return decipher.update(text, 'hex', 'utf8') + decipher.final('utf8');
+}
 
 // ToggleButton Component
 const ToggleButton = ({ onClick, isShowingMore }) => (
@@ -160,14 +173,14 @@ export default function FullWidthTabs() {
       setProjects(projectData);
       setCertificates(certificateData);
 
-      localStorage.setItem("projects", JSON.stringify(projectData));
-      localStorage.setItem("certificates", JSON.stringify(certificateData));
+      localStorage.setItem("projects", encrypt(JSON.stringify(projectData)));
+      localStorage.setItem("certificates", encrypt(JSON.stringify(certificateData)));
       setFirebaseError(null); // Clear any previous errors on success
     } catch (error) {
       console.error("Error fetching data from Firestore:", error);
       setFirebaseError("Failed to load portfolio data. Displaying cached content if available."); // Enhanced user feedback
-      const cachedProjects = JSON.parse(localStorage.getItem("projects") || "[]");
-      const cachedCertificates = JSON.parse(localStorage.getItem("certificates") || "[]");
+      const cachedProjects = JSON.parse(decrypt(localStorage.getItem("projects") || "[]"));
+      const cachedCertificates = JSON.parse(decrypt(localStorage.getItem("certificates") || "[]"));
       setProjects(cachedProjects);
       setCertificates(cachedCertificates);
     }
