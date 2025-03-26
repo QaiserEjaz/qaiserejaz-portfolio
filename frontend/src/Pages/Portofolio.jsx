@@ -40,7 +40,7 @@ const ToggleButton = ({ onClick, isShowingMore }) => (
         strokeLinejoin="round"
         className={`
           transition-transform 
-          duration-300 
+          duration-301 
           ${isShowingMore ? "group-hover:-translate-y-0.5" : "group-hover:translate-y-0.5"}
         `}
       >
