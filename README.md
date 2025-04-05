@@ -1,6 +1,6 @@
 <div align="center">
   <h1>🚀 Welcome to my Portfolio Website!</h1>
-  <p>I'm Qaiser Ejaz, a passionate Full Stack Developer showcasing my journey through this interactive platform.</p>
+  <p>I'm Qaiser Ejaz, a passionate Full-Stack Developer showcasing my journey through this interactive platform.</p>
 </div>
 
 <p align="center">
