@@ -8,6 +8,7 @@ import AppBar from "@mui/material/AppBar";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
+import CircularProgress from "@mui/material/CircularProgress";
 import CardProject from "../components/CardProject";
 import TechStackIcon from "../components/TechStackIcon";
 import AOS from "aos";
@@ -18,6 +19,7 @@ import { AutoAwesomeOutlined, School, Work, Code as CodeIcon, EmojiEvents } from
 import Education from "../components/Education";
 import WorkExperience from "../components/WorkExperience";
 import { useRef } from "react";
+import { useLocation } from "react-router-dom";
 
 // ToggleButton Component
 const ToggleButton = ({ onClick, isShowingMore }) => (
@@ -131,6 +133,7 @@ export default function FullWidthTabs() {
   const [showAllProjects, setShowAllProjects] = useState(false);
   const [showAllCertificates, setShowAllCertificates] = useState(false);
   const [firebaseError, setFirebaseError] = useState(null); // Added state for Firebase errors
+const [isLoading, setIsLoading] = useState(true);
   const isMobile = window.innerWidth < 768;
   const initialItems = isMobile ? 4 : 6; // Responsive initial items
 
@@ -141,44 +144,46 @@ export default function FullWidthTabs() {
   // Fetch data from Firestore with enhanced error handling and user feedback
   // Modify the fetchData function
   const fetchData = useCallback(async () => {
+    // Load from cache first
+    try {
+      const cachedProjects = JSON.parse(sessionStorage.getItem("projects") || "[]");
+      const cachedCertificates = JSON.parse(sessionStorage.getItem("certificates") || "[]");
+      setProjects(cachedProjects);
+      setCertificates(cachedCertificates);
+      setIsLoading(false);
+    } catch (parseError) {
+      console.error("Error parsing cached data:", parseError);
+      setIsLoading(true);
+    }
+
     try {
       const projectCollection = collection(db, "projects");
       const certificateCollection = collection(db, "certificates");
-  
+
       const [projectSnapshot, certificateSnapshot] = await Promise.all([
         getDocs(projectCollection),
         getDocs(certificateCollection),
       ]);
-  
+
       const projectData = projectSnapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
         TechStack: doc.data().TechStack || [],
       }));
-  
+
       const certificateData = certificateSnapshot.docs.map((doc) => doc.data());
-  
+
       setProjects(projectData);
       setCertificates(certificateData);
-  
+
       sessionStorage.setItem("projects", JSON.stringify(projectData));
       sessionStorage.setItem("certificates", JSON.stringify(certificateData));
       setFirebaseError(null);
+      setIsLoading(false);
     } catch (error) {
       console.error("Error fetching data from Firestore:", error);
       setFirebaseError("Failed to load portfolio data. Please try again later.");
-  
-      // Try to load from sessionStorage
-      try {
-        const cachedProjects = JSON.parse(sessionStorage.getItem("projects") || "[]");
-        const cachedCertificates = JSON.parse(sessionStorage.getItem("certificates") || "[]");
-        setProjects(cachedProjects);
-        setCertificates(cachedCertificates);
-      } catch (parseError) {
-        console.error("Error parsing cached data:", parseError);
-        setProjects([]);
-        setCertificates([]);
-      }
+      setIsLoading(false);
     }
   }, []);
 
@@ -198,7 +203,8 @@ export default function FullWidthTabs() {
   const displayedProjects = showAllProjects ? projects : projects.slice(0, initialItems);
   const displayedCertificates = showAllCertificates ? certificates : certificates.slice(0, initialItems);
 
-  const [value, setValue] = useState(0);
+  const location = useLocation();
+  const [value, setValue] = useState(location.state?.activeTab || 0);
   const [touchStartX, setTouchStartX] = useState(null);
   const [touchCurrentX, setTouchCurrentX] = useState(null);
   const tabsContainerRef = useRef(null);
@@ -356,43 +362,59 @@ export default function FullWidthTabs() {
             <WorkExperience />
           </TabPanel>
           <TabPanel value={value} index={1} dir={theme.direction}>
-            <div className="container mx-auto flex justify-center items-center overflow-hidden">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 2xl:grid-cols-3 gap-5">
-                {displayedProjects.map((project, index) => (
-                  <div
-                    key={project.id || index}
-                    data-aos={index % 3 === 0 ? "fade-up-right" : index % 3 === 1 ? "fade-up" : "fade-up-left"}
-                    data-aos-duration={index % 3 === 0 ? "1000" : index % 3 === 1 ? "1200" : "1000"}
-                  >
-                    <CardProject Img={project.Img} Title={project.Title} Description={project.Description} Link={project.Link} id={project.id} />
+            {isLoading && displayedProjects.length === 0 ? (
+              <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
+                <CircularProgress color="secondary" />
+              </Box>
+            ) : (
+              <>
+                <div className="container mx-auto flex justify-center items-center overflow-hidden">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 2xl:grid-cols-3 gap-5">
+                    {displayedProjects.map((project, index) => (
+                      <div
+                        key={project.id || index}
+                        data-aos={index % 3 === 0 ? "fade-up-right" : index % 3 === 1 ? "fade-up" : "fade-up-left"}
+                        data-aos-duration={index % 3 === 0 ? "1000" : index % 3 === 1 ? "1200" : "1000"}
+                      >
+                        <CardProject Img={project.Img} Title={project.Title} Description={project.Description} Link={project.Link} id={project.id} />
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-            </div>
-            {projects.length > initialItems && (
-              <div className="mt-6 w-full flex justify-start">
-                <ToggleButton onClick={() => toggleShowMore("projects")} isShowingMore={showAllProjects} />
-              </div>
+                </div>
+                {projects.length > initialItems && (
+                  <div className="mt-6 w-full flex justify-start">
+                    <ToggleButton onClick={() => toggleShowMore("projects")} isShowingMore={showAllProjects} />
+                  </div>
+                )}
+              </>
             )}
           </TabPanel>
           <TabPanel value={value} index={2} dir={theme.direction}>
-            <div className="container mx-auto flex justify-center items-center overflow-hidden">
-              <div className="grid grid-cols-1 md:grid-cols-3 md:gap-5 gap-4">
-                {displayedCertificates.map((certificate, index) => (
-                  <div
-                    key={index}
-                    data-aos={index % 3 === 0 ? "fade-up-right" : index % 3 === 1 ? "fade-up" : "fade-up-left"}
-                    data-aos-duration={index % 3 === 0 ? "1000" : index % 3 === 1 ? "1200" : "1000"}
-                  >
-                    <Certificate ImgCertif={certificate.Img} />
+            {isLoading && displayedCertificates.length === 0 ? (
+              <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
+                <CircularProgress color="secondary" />
+              </Box>
+            ) : (
+              <>
+                <div className="container mx-auto flex justify-center items-center overflow-hidden">
+                  <div className="grid grid-cols-1 md:grid-cols-3 md:gap-5 gap-4">
+                    {displayedCertificates.map((certificate, index) => (
+                      <div
+                        key={index}
+                        data-aos={index % 3 === 0 ? "fade-up-right" : index % 3 === 1 ? "fade-up" : "fade-up-left"}
+                        data-aos-duration={index % 3 === 0 ? "1000" : index % 3 === 1 ? "1200" : "1000"}
+                      >
+                        <Certificate ImgCertif={certificate.Img} />
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-            </div>
-            {certificates.length > initialItems && (
-              <div className="mt-6 w-full flex justify-start">
-                <ToggleButton onClick={() => toggleShowMore("certificates")} isShowingMore={showAllCertificates} />
-              </div>
+                </div>
+                {certificates.length > initialItems && (
+                  <div className="mt-6 w-full flex justify-start">
+                    <ToggleButton onClick={() => toggleShowMore("certificates")} isShowingMore={showAllCertificates} />
+                  </div>
+                )}
+              </>
             )}
           </TabPanel>
           <TabPanel value={value} index={3} dir={theme.direction}>

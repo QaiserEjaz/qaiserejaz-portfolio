@@ -131,8 +131,8 @@ StatCard.propTypes = {
 
 const AboutPage = () => {
   const { totalProjects, totalCertificates, YearExperience } = useMemo(() => {
-    const storedProjects = JSON.parse(localStorage.getItem("projects") || "[]");
-    const storedCertificates = JSON.parse(localStorage.getItem("certificates") || "[]");
+    const storedProjects = JSON.parse(sessionStorage.getItem("projects") || "[]");
+    const storedCertificates = JSON.parse(sessionStorage.getItem("certificates") || "[]");
     const startDate = new Date("2023-07-01");
     const today = new Date();
     const experience = today.getFullYear() - startDate.getFullYear() -

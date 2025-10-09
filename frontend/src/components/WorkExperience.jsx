@@ -60,9 +60,20 @@ const WorkExperience = () => {
 
   const workData = [
     {
+      position: "Full Stack Developer",
+      company: "GEEKS OF KOLACHI, KARACHI",
+      duration: "JUNE 25 - PRESENT",
+      description: "Developing and maintaining features for KP Management, a real estate management platform using Next.js, PostgreSQL, and Auth0. Implemented secure authentication and role-based access control using Auth0.",
+      project: "KP Management",
+      projectDescription: "Built scalable server-side logic with API routes in Next.js and handled PostgreSQL queries for data-driven components. Optimized performance with SSR and code-splitting in Next.js for a seamless user experience.",
+      tech: ["JavaScript", "TypeScript", "Next js", "Context API", "Tailwind", "Axios", "Postman", "REST APIs", "PostgreSQL"],
+      location: "Remote",
+      hasCertificate: false,
+    },
+    {
       position: "Junior Web Developer",
       company: "GENZ CRAFTERS, KARACHI",
-      duration: "OCT 24 - PRESENT",
+      duration: "OCT 24 - MAY 25",
       description: "Developed frontend applications in React, focusing on user experience and responsive design. Integrated REST APIs to enhance web functionality and streamline data handling across the application.",
       project: "Fix-Ot",
       projectDescription: "Developed core features using React for a platform that connects users with domestic workers across various services, including cleaning, plumbing, electrical work, carpentry, and painting. Integrated REST APIs and Firebase Realtime Database for real-time data handling, enhancing service accessibility and user engagement.",

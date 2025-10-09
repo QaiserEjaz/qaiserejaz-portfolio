@@ -75,12 +75,12 @@ function App() {
     meta.httpEquiv = "Content-Security-Policy";
     meta.content = `
       default-src 'self';
-      script-src 'self' 'unsafe-eval' 'unsafe-inline' https://*.vercel.app https://*.firebaseio.com https://*.firebasedatabase.app https://www.googletagmanager.com https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://*.adtrafficquality.google;
-      connect-src 'self' wss://*.firebasedatabase.app https://*.firebaseio.com https://firestore.googleapis.com https://firebaseinstallations.googleapis.com https://cdn.jsdelivr.net https://unpkg.com https://www.google-analytics.com https://formsubmit.co https://formsubmit.com https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://adservice.google.com https://*.adtrafficquality.google;
+      script-src 'self' 'unsafe-eval' 'unsafe-inline' https://*.vercel.app https://*.firebaseio.com https://*.firebasedatabase.app https://www.googletagmanager.com https://*.google.com;
+      connect-src 'self' wss://*.firebasedatabase.app https://*.firebaseio.com https://firestore.googleapis.com https://firebaseinstallations.googleapis.com https://cdn.jsdelivr.net https://unpkg.com https://www.google-analytics.com https://formsubmit.co https://formsubmit.com https://*.google.com;
       style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
-      img-src 'self' data: https://www.google.com https://i.imgur.com https://photos.google.com https://*.googlesyndication.com https://*.doubleclick.net https://*.adtrafficquality.google;
+      img-src 'self' data: https://www.google.com https://i.imgur.com https://photos.google.com;
       font-src 'self' https://fonts.gstatic.com;
-      frame-src 'self' https://*.doubleclick.net https://*.google.com https://*.adtrafficquality.google;
+      frame-src 'self';
       object-src 'none';
       base-uri 'self';
       form-action 'self';
