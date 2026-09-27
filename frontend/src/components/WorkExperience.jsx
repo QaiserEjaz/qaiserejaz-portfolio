@@ -167,7 +167,7 @@ const WorkExperience = () => {
       <h2 data-aos="fade-down" className="text-3xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#6366f1] to-[#a855f7] text-center mb-12">
         Work Experience
       </h2>
-<div className="relative">
+      <div className="relative">
         {workData.map((work, index) => (
           <div key={index} data-aos="fade-up" data-aos-delay={index * 100} className="relative group sm:pl-8 md:pl-14 mb-8 last:mb-0">
             <div className="hidden md:block absolute left-1 -translate-x-1/2 top-6 w-4 h-4 bg-gradient-to-r from-[#6366f1] to-[#a855f7] rounded-full border-2 border-white/20"></div>
