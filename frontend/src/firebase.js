@@ -1,4 +1,5 @@
 import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 import { getDatabase } from "firebase/database";
@@ -11,17 +12,18 @@ const firebaseConfig = {
   databaseURL: import.meta.env.VITE_REACT_APP_FIREBASE_DATABASE_URL,
   projectId: import.meta.env.VITE_REACT_APP_FIREBASE_PROJECT_ID,
   storageBucket: import.meta.env.VITE_REACT_APP_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: import.meta.env.VITE_REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  messagingSenderId: import.meta.env
+    .VITE_REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
   appId: import.meta.env.VITE_REACT_APP_FIREBASE_APP_ID,
-  measurementId: import.meta.env.VITE_REACT_APP_FIREBASE_MEASUREMENT_ID
+  measurementId: import.meta.env.VITE_REACT_APP_FIREBASE_MEASUREMENT_ID,
 };
-
 
 // Initialize with firebaseConfig2
 const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 const db = getFirestore(app);
 const storage = getStorage(app);
 const analytics = getAnalytics(app);
-const database = getDatabase(app);  // Realtime Database
+const database = getDatabase(app); // Realtime Database
 
-export { db, storage, collection, addDoc, getDocs, analytics, database };
+export { db, storage, collection, addDoc, getDocs, analytics, database, auth };

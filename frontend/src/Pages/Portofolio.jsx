@@ -85,6 +85,15 @@ TabPanel.propTypes = {
 
 // Tech Stack Icons
 const techStacks = [
+  { icon: "microsoftdynamics365.svg", language: "Microsoft Dynamics 365" },
+  { icon: "dynamics365BC.svg", language: "Dynamics 365 Business Central" },
+  { icon: "dataverse.svg", language: "Dataverse" },
+  // { icon: "powerplatform.svg", language: "Power Platform" },
+  { icon: "powerbi.svg", language: "Power BI" },
+  { icon: "powerapps.svg", language: "Power Apps" },
+  { icon: "powerautomate.svg", language: "Power Automate" },
+  { icon: "powerpages.svg", language: "Power Pages" },
+  { icon: "sqlserver.svg", language: "SQL Server" },
   { icon: "html.svg", language: "HTML" },
   { icon: "css.svg", language: "CSS" },
   { icon: "javascript.svg", language: "JavaScript" },
@@ -111,8 +120,8 @@ const techStacks = [
 // SwipeableCards Component
 const SwipeableCards = ({ children, index, onChangeIndex }) => {
   const handlers = useSwipeable({
-    onSwipedLeft: () => onChangeIndex(index + 1),
-    onSwipedRight: () => onChangeIndex(index - 1),
+    onSwipedLeft: () => onChangeIndex(Math.min(index + 1, 4)),
+    onSwipedRight: () => onChangeIndex(Math.max(index - 1, 0)),
     preventDefaultTouchmoveEvent: true,
     trackMouse: true,
   });
@@ -133,9 +142,11 @@ export default function FullWidthTabs() {
   const [showAllProjects, setShowAllProjects] = useState(false);
   const [showAllCertificates, setShowAllCertificates] = useState(false);
   const [firebaseError, setFirebaseError] = useState(null); // Added state for Firebase errors
-const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const isMobile = window.innerWidth < 768;
   const initialItems = isMobile ? 4 : 6; // Responsive initial items
+  const totalTabs = 5;
+  const normalizeTabIndex = (index) => Math.min(Math.max(index, 0), totalTabs - 1);
 
   useEffect(() => {
     AOS.init({ once: false });
@@ -144,10 +155,34 @@ const [isLoading, setIsLoading] = useState(true);
   // Fetch data from Firestore with enhanced error handling and user feedback
   // Modify the fetchData function
   const fetchData = useCallback(async () => {
-    // Load from cache first
+    const readCachedData = (key) => {
+      try {
+        const localData = localStorage.getItem(key);
+        if (localData) return JSON.parse(localData);
+
+        const sessionData = sessionStorage.getItem(key);
+        if (sessionData) return JSON.parse(sessionData);
+
+        return [];
+      } catch (error) {
+        console.error(`Error parsing cached data for ${key}:`, error);
+        return [];
+      }
+    };
+
+    const saveCachedData = (key, data) => {
+      try {
+        localStorage.setItem(key, JSON.stringify(data));
+        sessionStorage.setItem(key, JSON.stringify(data));
+      } catch (error) {
+        console.error(`Error saving cached data for ${key}:`, error);
+      }
+    };
+
+    // Load from a persistent cache first
     try {
-      const cachedProjects = JSON.parse(sessionStorage.getItem("projects") || "[]");
-      const cachedCertificates = JSON.parse(sessionStorage.getItem("certificates") || "[]");
+      const cachedProjects = readCachedData("projects");
+      const cachedCertificates = readCachedData("certificates");
       setProjects(cachedProjects);
       setCertificates(cachedCertificates);
       setIsLoading(false);
@@ -176,8 +211,8 @@ const [isLoading, setIsLoading] = useState(true);
       setProjects(projectData);
       setCertificates(certificateData);
 
-      sessionStorage.setItem("projects", JSON.stringify(projectData));
-      sessionStorage.setItem("certificates", JSON.stringify(certificateData));
+      saveCachedData("projects", projectData);
+      saveCachedData("certificates", certificateData);
       setFirebaseError(null);
       setIsLoading(false);
     } catch (error) {
@@ -209,8 +244,25 @@ const [isLoading, setIsLoading] = useState(true);
   const [touchCurrentX, setTouchCurrentX] = useState(null);
   const tabsContainerRef = useRef(null);
 
+  useEffect(() => {
+    const handlePortfolioTabChange = (event) => {
+      const nextTab = event.detail?.tab;
+      if (typeof nextTab === "number") {
+        setValue(normalizeTabIndex(nextTab));
+      }
+    };
+
+    window.addEventListener("portfolio-tab-change", handlePortfolioTabChange);
+
+    return () => {
+      window.removeEventListener("portfolio-tab-change", handlePortfolioTabChange);
+    };
+  }, [normalizeTabIndex]);
+
   const handleChange = (event, newValue) => {
-    setValue(newValue);
+    if (typeof newValue === "number") {
+      setValue(normalizeTabIndex(newValue));
+    }
   };
 
   // Touch handlers (unchanged)
@@ -230,10 +282,10 @@ const [isLoading, setIsLoading] = useState(true);
     const swipeThreshold = 50;
 
     if (Math.abs(deltaX) > swipeThreshold) {
-      if (deltaX > 0 && value < 4) {
-        setValue((prev) => prev + 1);
-      } else if (deltaX < 0 && value > 0) {
-        setValue((prev) => prev - 1);
+      if (deltaX > 0) {
+        setValue((prev) => normalizeTabIndex(prev + 1));
+      } else if (deltaX < 0) {
+        setValue((prev) => normalizeTabIndex(prev - 1));
       }
     }
 
@@ -285,7 +337,7 @@ const [isLoading, setIsLoading] = useState(true);
             border: "1px solid rgba(255, 255, 255, 0.1)",
             borderRadius: "20px",
             position: "relative",
-            overflow: "hidden",
+            overflow: "visible",
             "&::before": {
               content: '""',
               position: "absolute",
@@ -310,16 +362,18 @@ const [isLoading, setIsLoading] = useState(true);
             sx={{
               minHeight: "70px",
               "& .MuiTab-root": {
-                fontSize: { xs: "0.8rem", md: "1rem" },
+                fontSize: { xs: "0.8rem", md: "0.82rem", lg: "0.92rem" },
                 fontWeight: "600",
                 color: "#94a3b8",
                 textTransform: "none",
                 transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-                padding: { xs: "15px 10px", md: "20px 0" },
+                padding: { xs: "15px 10px", md: "16px 10px", lg: "18px 12px" },
                 zIndex: 1,
-                margin: "8px",
+                margin: { xs: "8px", md: "6px", lg: "8px" },
                 borderRadius: "12px",
-                minWidth: { xs: "auto", md: "160px" },
+                minWidth: { xs: "auto", md: "120px", lg: "145px", xl: "160px" },
+                maxWidth: { xs: "none", md: "180px" },
+                flex: { xs: "0 0 auto", md: "1 1 0" },
                 "&:hover": {
                   color: "#ffffff",
                   backgroundColor: "rgba(139, 92, 246, 0.1)",
@@ -337,10 +391,19 @@ const [isLoading, setIsLoading] = useState(true);
               "& .MuiTabs-flexContainer": {
                 justifyContent: isMobile ? "flex-start" : "center",
                 gap: "8px",
+                minWidth: isMobile ? "max-content" : "100%",
               },
               "& .MuiTabs-scroller": {
                 overflowX: isMobile ? "auto" : "visible",
+                overflowY: "hidden",
                 WebkitOverflowScrolling: "touch",
+                scrollbarWidth: "none",
+                "&::-webkit-scrollbar": {
+                  display: "none",
+                },
+              },
+              "& .MuiTabs-scrollButtons": {
+                color: "#c4b5fd",
               },
             }}
             onTouchStart={handleTouchStart}

@@ -1,4 +1,6 @@
-import { useEffect, memo, useMemo } from "react";
+import { useEffect, memo, useMemo, useState } from "react";
+import { db, collection } from "../firebase";
+import { getDocs } from "firebase/firestore";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import PropTypes from 'prop-types';
@@ -77,8 +79,8 @@ const ProfileImage = memo(() => (
 ));
 ProfileImage.displayName = "ProfileImage";
 
-const StatCard = memo(({ icon: Icon, color, value, label, description, animation }) => (
-  <div data-aos={animation} data-aos-duration={1300} className="relative group">
+const StatCard = memo(({ icon: Icon, color, value, label, description, animation, onClick }) => (
+  <div onClick={onClick} data-aos={animation} data-aos-duration={1300} className="relative group cursor-pointer">
     <div className="relative z-10 bg-gray-900/50 backdrop-blur-lg rounded-2xl p-6 border border-white/10 overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl group-hover:border-[#6366f1]/50 h-full flex flex-col justify-between">
       <div className={`absolute -z-10 inset-0 bg-gradient-to-br ${color} opacity-10 group-hover:opacity-20 transition-opacity duration-300`}></div>
       <div className="flex items-center justify-between mb-4">
@@ -127,23 +129,84 @@ StatCard.propTypes = {
   label: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   animation: PropTypes.string.isRequired,
+  onClick: PropTypes.func,
 };
 
 const AboutPage = () => {
+  const [totals, setTotals] = useState({ totalProjects: 0, totalCertificates: 0 });
+
+  useEffect(() => {
+    const readCachedData = (key) => {
+      try {
+        const localData = localStorage.getItem(key);
+        if (localData) return JSON.parse(localData);
+
+        const sessionData = sessionStorage.getItem(key);
+        if (sessionData) return JSON.parse(sessionData);
+
+        return [];
+      } catch (error) {
+        console.error(`Error parsing cached data for ${key}:`, error);
+        return [];
+      }
+    };
+
+    const loadPortfolioCounts = async () => {
+      try {
+        const storedProjects = readCachedData("projects");
+        const storedCertificates = readCachedData("certificates");
+
+        if (storedProjects.length || storedCertificates.length) {
+          setTotals({
+            totalProjects: storedProjects.length,
+            totalCertificates: storedCertificates.length,
+          });
+          return;
+        }
+
+        const [projectSnapshot, certificateSnapshot] = await Promise.all([
+          getDocs(collection(db, "projects")),
+          getDocs(collection(db, "certificates")),
+        ]);
+
+        const projectData = projectSnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+          TechStack: doc.data().TechStack || [],
+        }));
+
+        const certificateData = certificateSnapshot.docs.map((doc) => doc.data());
+
+        localStorage.setItem("projects", JSON.stringify(projectData));
+        localStorage.setItem("certificates", JSON.stringify(certificateData));
+        sessionStorage.setItem("projects", JSON.stringify(projectData));
+        sessionStorage.setItem("certificates", JSON.stringify(certificateData));
+
+        setTotals({
+          totalProjects: projectData.length,
+          totalCertificates: certificateData.length,
+        });
+      } catch (error) {
+        console.error("Error loading portfolio counts:", error);
+        setTotals({ totalProjects: 0, totalCertificates: 0 });
+      }
+    };
+
+    loadPortfolioCounts();
+  }, []);
+
   const { totalProjects, totalCertificates, YearExperience } = useMemo(() => {
-    const storedProjects = JSON.parse(sessionStorage.getItem("projects") || "[]");
-    const storedCertificates = JSON.parse(sessionStorage.getItem("certificates") || "[]");
     const startDate = new Date("2023-07-01");
     const today = new Date();
     const experience = today.getFullYear() - startDate.getFullYear() -
       (today < new Date(today.getFullYear(), startDate.getMonth(), startDate.getDate()) ? 1 : 0);
 
     return {
-      totalProjects: storedProjects.length,
-      totalCertificates: storedCertificates.length,
+      totalProjects: totals.totalProjects,
+      totalCertificates: totals.totalCertificates,
       YearExperience: experience
     };
-  }, []);
+  }, [totals]);
 
   useEffect(() => {
     const initAOS = () => {
@@ -163,6 +226,29 @@ const AboutPage = () => {
       clearTimeout(resizeTimer);
     };
   }, []);
+
+  const handleStatClick = (label) => {
+    const tabMap = {
+      "Total Projects": 1,
+      Certificates: 2,
+      "Years of Experience": 0
+    };
+
+    const targetTab = tabMap[label];
+
+    if (targetTab === undefined) return;
+
+    window.dispatchEvent(
+      new CustomEvent("portfolio-tab-change", {
+        detail: { tab: targetTab },
+      })
+    );
+
+    const portfolioSection = document.getElementById("Portofolio");
+    if (portfolioSection) {
+      portfolioSection.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
 
   const statsData = useMemo(() => [
     {
@@ -223,16 +309,17 @@ const AboutPage = () => {
               data-aos="fade-right"
               data-aos-duration="1500"
             >
-              {/* Text scales well: 1rem mobile, 1.25rem sm, 1.5rem lg */}
-              A Computer Systems Engineer with a passion for Full Stack Development.
-              Currently working with MERN Stack to build seamless and engaging user experiences.
-              I specialize in integrating real-time databases and REST APIs, ensuring efficient
-              and high-performance web applications.
+              A Computer Systems Engineer with a passion for building enterprise solutions.
+              Currently specializing in Microsoft Power Platform and Dynamics 365 Business
+              Central, building seamless ERP solutions and engaging user experiences.
+              I deliver enterprise-grade customizations across Dynamics 365, automate business
+              processes with Power Automate, build interactive dashboards with Power BI, and
+              create low-code applications with Power Apps and Power Pages.
             </p>
             <div className="flex flex-col lg:flex-row items-center lg:items-start gap-4 lg:gap-4 lg:px-0 w-full">
               {/* Buttons stack on mobile, row on lg, full-width on mobile adjusts to content on lg */}
-              <a 
-                href="https://drive.google.com/file/d/13-pu2ByviqqOyVpmoZfqfhe2nd16G9z0/view?usp=sharing" 
+              <a
+                href="https://drive.google.com/file/d/13-pu2ByviqqOyVpmoZfqfhe2nd16G9z0/view?usp=sharing"
                 className="w-full lg:w-auto"
               >
                 <button
@@ -259,14 +346,12 @@ const AboutPage = () => {
           </div>
           <ProfileImage />
         </div>
-        <a href="#Portofolio">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-16 cursor-pointer">
-            {/* Added sm:grid-cols-2 for tablet (640px-768px), md:grid-cols-3 for larger screens */}
-            {statsData.map((stat) => (
-              <StatCard key={stat.label} {...stat} />
-            ))}
-          </div>
-        </a>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-16 cursor-pointer">
+          {/* Added sm:grid-cols-2 for tablet (640px-768px), md:grid-cols-3 for larger screens */}
+          {statsData.map((stat) => (
+            <StatCard key={stat.label} {...stat} onClick={() => handleStatClick(stat.label)} />
+          ))}
+        </div>
       </div>
       <style>{`
         @keyframes float {
