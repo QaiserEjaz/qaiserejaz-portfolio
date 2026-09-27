@@ -1,11 +1,12 @@
 import { useState, useEffect, useRef, useCallback, memo } from "react";
 import { ref, push, onValue } from "firebase/database";
 import {
-  ref as storageRef,
-  uploadBytes,
-  getDownloadURL,
-} from "firebase/storage";
-import { database, storage } from "../firebase"; // Realtime Database and Storage
+  GoogleAuthProvider,
+  onAuthStateChanged,
+  signInWithPopup,
+  signOut,
+} from "firebase/auth";
+import { auth, database } from "../firebase";
 import {
   MessageCircle,
   UserCircle2,
@@ -20,6 +21,21 @@ import {
 import AOS from "aos";
 import "aos/dist/aos.css";
 import PropTypes from "prop-types";
+
+const GoogleIcon = () => (
+  <svg
+    viewBox="-3 0 262 262"
+    xmlns="http://www.w3.org/2000/svg"
+    preserveAspectRatio="xMidYMid"
+    className="h-6 w-6 sm:h-7 sm:w-7 shrink-0"
+    aria-hidden="true"
+  >
+    <path d="M255.878 133.451c0-10.734-.871-18.567-2.756-26.69H130.55v48.448h71.947c-1.45 12.04-9.283 30.172-26.69 42.356l-.244 1.622 38.755 30.023 2.685.268c24.659-22.774 38.875-56.282 38.875-96.027" fill="#4285F4"/>
+    <path d="M130.55 261.1c35.248 0 64.839-11.605 86.453-31.622l-41.196-31.913c-11.024 7.688-25.82 13.055-45.257 13.055-34.523 0-63.824-22.773-74.269-54.25l-1.531.13-40.298 31.187-.527 1.465C35.393 231.798 79.49 261.1 130.55 261.1" fill="#34A853"/>
+    <path d="M56.281 156.37c-2.756-8.123-4.351-16.827-4.351-25.82 0-8.994 1.595-17.697 4.206-25.82l-.073-1.73L15.26 71.312l-1.335.635C5.077 89.644 0 109.517 0 130.55s5.077 40.905 13.925 58.602l42.356-32.782" fill="#FBBC05"/>
+    <path d="M130.55 50.479c24.514 0 41.05 10.589 50.479 19.438l36.844-35.974C195.245 12.91 165.798 0 130.55 0 79.49 0 35.393 29.301 13.925 71.947l42.211 32.783c10.59-31.477 39.891-54.251 74.414-54.251" fill="#EB4335"/>
+  </svg>
+);
 
 const Comment = memo(({ comment, formatDate }) => (
   <div className="px-2 py-1 sm:px-3 sm:py-2 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all group hover:shadow-lg hover:-translate-y-0.5 overflow-x-hidden">
@@ -78,16 +94,34 @@ Comment.propTypes = {
 };
 
 // Comment Form Component with Email, Star Rating, and Abusive Checker
-const CommentForm = memo(function CommentForm({ onSubmit, isSubmitting }) {
+const CommentForm = memo(function CommentForm({
+  onSubmit,
+  isSubmitting,
+  currentUser,
+  onGoogleLogin,
+  onGoogleLogout,
+  isGoogleLoading,
+}) {
   const [newComment, setNewComment] = useState("");
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
+  const [profileImage, setProfileImage] = useState(null);
   const [rating, setRating] = useState(0);
   const [imagePreview, setImagePreview] = useState(null);
   const [imageFile, setImageFile] = useState(null);
   const [abuseError, setAbuseError] = useState("");
   const textareaRef = useRef(null);
   const fileInputRef = useRef(null);
+
+  useEffect(() => {
+    if (currentUser) {
+      setUserName(currentUser.displayName || "Google User");
+      setEmail(currentUser.email || "");
+      setProfileImage(currentUser.photoURL || null);
+    } else {
+      setProfileImage(null);
+    }
+  }, [currentUser]);
 
   // List of abusive words
   const abusiveWords = [
@@ -142,10 +176,13 @@ const CommentForm = memo(function CommentForm({ onSubmit, isSubmitting }) {
         return;
       }
 
-      onSubmit({ newComment, userName, email, imageFile, rating });
+      onSubmit({ newComment, userName, email, profileImage, imageFile, rating });
       setNewComment("");
-      setUserName("");
-      setEmail("");
+      if (!currentUser) {
+        setUserName("");
+        setEmail("");
+        setProfileImage(null);
+      }
       setRating(0);
       setImagePreview(null);
       setImageFile(null);
@@ -153,11 +190,57 @@ const CommentForm = memo(function CommentForm({ onSubmit, isSubmitting }) {
       if (fileInputRef.current) fileInputRef.current.value = "";
       if (textareaRef.current) textareaRef.current.style.height = "auto";
     },
-    [newComment, userName, email, imageFile, rating, onSubmit, checkAbusiveContent]
+    [newComment, userName, email, profileImage, imageFile, rating, onSubmit, checkAbusiveContent]
   );
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
+      {!currentUser ? (
+        <button
+          type="button"
+          onClick={onGoogleLogin}
+          disabled={isGoogleLoading}
+          className="w-full max-w-[320px] mx-auto flex items-center justify-center gap-3 rounded-full border border-white/15 bg-white/5 px-5 py-3.5 text-base font-medium text-white shadow-[0_0_0_1px_rgba(255,255,255,0.04)] backdrop-blur-sm transition hover:bg-white/10 hover:border-white/25 active:scale-[0.99] disabled:opacity-60"
+        >
+          {isGoogleLoading ? (
+            <>
+              <Loader2 className="w-5 h-5 animate-spin text-white" />
+              <span>Connecting...</span>
+            </>
+          ) : (
+            <>
+              <GoogleIcon />
+              <span>Continue with Google</span>
+            </>
+          )}
+        </button>
+      ) : (
+        <div className="flex items-center justify-between gap-3 rounded-xl border border-emerald-400/30 bg-emerald-500/10 px-3 py-2 text-xs sm:text-sm text-emerald-200">
+          <div className="flex items-center gap-2 min-w-0">
+            {currentUser.photoURL ? (
+              <img
+                src={currentUser.photoURL}
+                alt={currentUser.displayName || "Google user"}
+                className="h-7 w-7 rounded-full object-cover border border-white/15"
+              />
+            ) : (
+              <UserCircle2 className="h-7 w-7 text-emerald-300" />
+            )}
+            <div className="truncate">
+              <p className="font-medium truncate">{currentUser.displayName || "Google User"}</p>
+              <p className="text-[10px] text-emerald-100/80 truncate">{currentUser.email}</p>
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={onGoogleLogout}
+            className="rounded-lg border border-white/10 bg-white/5 px-2 py-1 text-[10px] font-medium text-white hover:bg-white/10"
+          >
+            Sign out
+          </button>
+        </div>
+      )}
+
       {/* Name Field */}
       <div className="space-y-2" data-aos="fade-up" data-aos-duration="1000">
         <label className="block text-xs sm:text-sm font-medium text-white">
@@ -315,12 +398,30 @@ const CommentForm = memo(function CommentForm({ onSubmit, isSubmitting }) {
 CommentForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   isSubmitting: PropTypes.bool.isRequired,
+  currentUser: PropTypes.shape({
+    displayName: PropTypes.string,
+    email: PropTypes.string,
+    photoURL: PropTypes.string,
+  }),
+  onGoogleLogin: PropTypes.func.isRequired,
+  onGoogleLogout: PropTypes.func.isRequired,
+  isGoogleLoading: PropTypes.bool.isRequired,
 };
 
 const Komentar = () => {
   const [comments, setComments] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
+  const [currentUser, setCurrentUser] = useState(null);
+  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setCurrentUser(user);
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   useEffect(() => {
     AOS.init({ once: false, duration: 1000 });
@@ -343,30 +444,53 @@ const Komentar = () => {
     });
   }, []);
 
-  // Upload image and return URL
-  const uploadImage = useCallback(async (imageFile) => {
-    if (!imageFile) return null;
-    const imgRef = storageRef(
-      storage,
-      `profile-images/${Date.now()}_${imageFile.name}`
-    );
-    await uploadBytes(imgRef, imageFile);
-    return getDownloadURL(imgRef);
+  const handleGoogleLogin = useCallback(async () => {
+    const provider = new GoogleAuthProvider();
+    setError("");
+    setIsGoogleLoading(true);
+
+    try {
+      await signInWithPopup(auth, provider);
+    } catch (error) {
+      setError("Google sign-in failed. Please try again.");
+      console.error("Google sign-in failed:", error);
+    } finally {
+      setIsGoogleLoading(false);
+    }
   }, []);
 
-  // Handle comment submission with email
-  const handleCommentSubmit = useCallback(
-    async ({ newComment, userName, email, imageFile, rating }) => {
+  const handleGoogleLogout = useCallback(async () => {
+    try {
+      await signOut(auth);
       setError("");
+    } catch (error) {
+      setError("Failed to sign out. Please try again.");
+      console.error("Google sign-out failed:", error);
+    }
+  }, []);
+
+  // Handle comment submission with email (without image upload dependency)
+  const handleCommentSubmit = useCallback(
+    async ({ newComment, userName, email, profileImage: formProfileImage, imageFile, rating }) => {
+      setError("");
+
+      if (!currentUser) {
+        setError("Please sign in with Google before posting a comment.");
+        return;
+      }
+
       setIsSubmitting(true);
 
       try {
-        const profileImageUrl = await uploadImage(imageFile);
+        const finalUserName = (currentUser.displayName || userName || "Google User").trim();
+        const finalEmail = currentUser.email || email || null;
+        const finalProfileImage = currentUser.photoURL || formProfileImage || null;
+
         const newCommentData = {
           content: newComment,
-          userName,
-          email: email || null,
-          profileImage: profileImageUrl || null,
+          userName: finalUserName,
+          email: finalEmail,
+          profileImage: finalProfileImage,
           rating: rating || null,
           createdAt: Date.now(),
           createdAtDay: new Date().toString(),
@@ -382,7 +506,7 @@ const Komentar = () => {
         setIsSubmitting(false);
       }
     },
-    [uploadImage]
+    [currentUser]
   );
 
   // Format timestamps
@@ -441,6 +565,10 @@ const Komentar = () => {
           <CommentForm
             onSubmit={handleCommentSubmit}
             isSubmitting={isSubmitting}
+            currentUser={currentUser}
+            onGoogleLogin={handleGoogleLogin}
+            onGoogleLogout={handleGoogleLogout}
+            isGoogleLoading={isGoogleLoading}
           />
         </div>
         <div className="border-t border-white/10 flex justify-center space-x-6"></div>

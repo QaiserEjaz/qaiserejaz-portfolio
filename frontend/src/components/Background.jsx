@@ -16,7 +16,10 @@ const AnimatedBackground = () => {
             const newScroll = window.pageYOffset
 
             blobRefs.current.forEach((blob, index) => {
+                if (!blob) return
+
                 const initialPos = initialPositions[index]
+                if (!initialPos) return
 
                 const xOffset = Math.sin(newScroll / 100 + index * 0.5) * 340
                 const yOffset = Math.cos(newScroll / 100 + index * 0.5) * 40
@@ -31,7 +34,13 @@ const AnimatedBackground = () => {
             requestId = requestAnimationFrame(handleScroll)
         }
 
+        const animationFrame = () => {
+            requestId = requestAnimationFrame(handleScroll)
+        }
+
+        animationFrame()
         window.addEventListener("scroll", handleScroll)
+
         return () => {
             window.removeEventListener("scroll", handleScroll)
             cancelAnimationFrame(requestId)

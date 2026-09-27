@@ -115,7 +115,7 @@ const ProjectDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [project, setProject] = useState(null);
-  const [setIsImageLoaded] = useState(false);
+  const [, setIsImageLoaded] = useState(false);
 
   const handleBackToPortfolio = () => {
     navigate('/', { state: { activeTab: 1 } });
