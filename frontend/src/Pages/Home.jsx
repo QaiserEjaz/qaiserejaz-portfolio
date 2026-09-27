@@ -26,16 +26,20 @@ const MainTitle = memo(() => (
     <h1 className="text-4xl sm:text-5xl md:text-5xl lg:text-5xl xl:text-6xl font-bold tracking-tight">
       <span className="relative inline-block">
         <span className="absolute -inset-2 bg-gradient-to-r from-[#6366f1] to-[#a855f7] blur-2xl opacity-20"></span>
-        <span className="relative bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent">
-          Full Stack
-        </span>
+          <span
+            className="relative bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent"
+          >
+            Power Platform
+          </span>
       </span>
       <br />
       <span className="relative inline-block mt-2">
         <span className="absolute -inset-2 bg-gradient-to-r from-[#6366f1] to-[#a855f7] blur-2xl opacity-20"></span>
-        <span className="relative bg-gradient-to-r from-[#6366f1] to-[#a855f7] bg-clip-text text-transparent">
-          Developer
-        </span>
+          <span
+            className="relative bg-gradient-to-r from-[#6366f1] to-[#a855f7] bg-clip-text text-transparent"
+          >
+            Consultant
+          </span>
       </span>
     </h1>
   </div>
@@ -85,8 +89,8 @@ SocialLink.propTypes = {
 const TYPING_SPEED = 100;
 const ERASING_SPEED = 50;
 const PAUSE_DURATION = 2000;
-const WORDS = ["Computer Systems Engineer", "Tech Enthusiast"];
-const TECH_STACK = ["Javascript", "React", "Tailwind", "Bootstrap", "Node.js", "MongoDB", "Express.js", "Git", "REST API", "Firebase", "Vercel"];
+const WORDS = ["Computer Systems Engineer","Power Platform Developer", "Dynamics 365 BC Consultant", "Tech Enthusiast"];
+const TECH_STACK = ["Dynamics 365 BC", "Power BI", "Power Apps", "Power Automate", "Power Pages", "JavaScript", "React", "Node.js", "Git", "REST API"];
 const SOCIAL_LINKS = [
   { icon: GitHub, link: "https://github.com/QaiserEjaz", name: "GitHub" },
   { icon: LinkedIn, link: "https://www.linkedin.com/in/qaiserejaz1/", name: "LinkedIn" },
@@ -160,7 +164,7 @@ const Home = () => {
                 <span className="w-1 h-5 bg-gradient-to-t from-[#6366f1] to-[#a855f7] ml-1 animate-blink"></span>
               </div>
               <p className="text-sm sm:text-base text-gray-400 max-w-md leading-relaxed font-light" data-aos="fade-up" data-aos-delay="180">
-                Creating Innovative, Functional, and User-Friendly Websites for Digital Solutions.
+                Specializing in Dynamics 365 Business Central and Microsoft Power Platform development with full-stack web application expertise.
               </p>
               <div className="flex flex-wrap gap-2 justify-start" data-aos="fade-up" data-aos-delay="200">
                 {TECH_STACK.map((tech, index) => (

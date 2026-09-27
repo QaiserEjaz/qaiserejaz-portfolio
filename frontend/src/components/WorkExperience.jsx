@@ -23,7 +23,16 @@ import {
   SiGit,
   SiGithub,
 } from "react-icons/si";
-import { FaNetworkWired, FaTools } from "react-icons/fa";
+import {
+  MdDashboard,
+  MdAutoFixHigh,
+  MdAnalytics,
+  MdGroupWork,
+  MdWeb,
+  MdApps,
+  MdReport,
+} from "react-icons/md";
+import { FaNetworkWired, FaTools, FaDatabase } from "react-icons/fa";
 import { RiCalendarEventLine } from "react-icons/ri";
 
 const techIcons = {
@@ -52,6 +61,14 @@ const techIcons = {
   Netlify: <SiNetlify className="w-5 h-5 text-blue-400" title="Netlify" />,
   Git: <SiGit className="w-5 h-5 text-red-500" title="Git" />,
   GitHub: <SiGithub className="w-5 h-5 text-gray-800" title="GitHub" />,
+  "Dynamics 365 BC": <MdDashboard className="w-5 h-5 text-blue-400" title="Dynamics 365 Business Central" />,
+  "Power Automate": <MdAutoFixHigh className="w-5 h-5 text-green-400" title="Power Automate" />,
+  "Power BI": <MdAnalytics className="w-5 h-5 text-yellow-400" title="Power BI" />,
+  "CRM": <MdGroupWork className="w-5 h-5 text-indigo-400" title="CRM" />,
+  "Power Pages": <MdWeb className="w-5 h-5 text-purple-400" title="Power Pages" />,
+  "Power Apps": <MdApps className="w-5 h-5 text-pink-400" title="Power Apps" />,
+  "RDLC Reports": <MdReport className="w-5 h-5 text-orange-400" title="RDLC Reports" />,
+  "SQL Server": <FaDatabase className="w-5 h-5 text-red-400" title="SQL Server" />,
 };
 
 const WorkExperience = () => {
@@ -60,9 +77,20 @@ const WorkExperience = () => {
 
   const workData = [
     {
+      position: "Dynamics 365 Business Central & Power Platform Consultant",
+      company: "VIZOR SOLUTIONS, KARACHI",
+      duration: "AUG 25 - PRESENT",
+      description: "Developing and customizing Dynamics 365 Business Central solutions, including AL code extensions, data model enhancements, and integration flows. Building automated business processes with Power Automate, creating interactive dashboards and analytical reports with Power BI, developing low-code applications with Power Apps, designing customer-facing portals with Power Pages, and authoring RDLC reports for business intelligence and CRM system reporting.",
+      project: "Dynamics 365 & Power Platform Solutions",
+      projectDescription: "Delivered end-to-end ERP customizations on Dynamics 365 Business Central, automated workflows via Power Automate connectors, self-service Power BI dashboards for data-driven decision making, and RDLC report development for financial and operational analytics. Integrated CRM modules for enhanced customer relationship management.",
+      tech: ["Dynamics 365 BC", "Power Automate", "Power BI", "CRM", "Power Pages", "Power Apps", "RDLC Reports", "SQL Server"],
+      location: "Karachi, Pakistan",
+      hasCertificate: false,
+    },
+    {
       position: "Full Stack Developer",
       company: "GEEKS OF KOLACHI, KARACHI",
-      duration: "JUNE 25 - PRESENT",
+      duration: "MAY 25 - JUL 25",
       description: "Developing and maintaining features for KP Management, a real estate management platform using Next.js, PostgreSQL, and Auth0. Implemented secure authentication and role-based access control using Auth0.",
       project: "KP Management",
       projectDescription: "Built scalable server-side logic with API routes in Next.js and handled PostgreSQL queries for data-driven components. Optimized performance with SSR and code-splitting in Next.js for a seamless user experience.",
@@ -73,7 +101,7 @@ const WorkExperience = () => {
     {
       position: "Junior Web Developer",
       company: "GENZ CRAFTERS, KARACHI",
-      duration: "OCT 24 - MAY 25",
+      duration: "OCT 24 - APR 25",
       description: "Developed frontend applications in React, focusing on user experience and responsive design. Integrated REST APIs to enhance web functionality and streamline data handling across the application.",
       project: "Fix-Ot",
       projectDescription: "Developed core features using React for a platform that connects users with domestic workers across various services, including cleaning, plumbing, electrical work, carpentry, and painting. Integrated REST APIs and Firebase Realtime Database for real-time data handling, enhancing service accessibility and user engagement.",
@@ -95,7 +123,7 @@ const WorkExperience = () => {
     {
       position: "Freelance Web Developer",
       company: "Self-Employed",
-      duration: "Jan 24 - Present",
+      duration: "JAN 24 - PRESENT",
       description: "Worked on various freelance projects, building websites and web applications for clients.",
       tech: ["JavaScript", "React js", "Bootstrap", "Node.js", "Express.js", "MongoDB", "REST APIs", "Firebase Realtime Database", "Firebase Authentication", "HTML", "CSS", "Tailwind CSS", "Bootstrap", "Vercel", "Netlify", "Git", "GitHub", "Postman"],
       location: "Remote",

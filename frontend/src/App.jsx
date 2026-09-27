@@ -38,7 +38,7 @@ const LandingPage = ({ showWelcome, setShowWelcome }) => {
             <hr className="my-3 border-gray-400 opacity-15 sm:mx-auto lg:my-6" />
             <span className="block text-sm pb-4 text-gray-300 dark:text-gray-200">
               {/* Contrast fix: text-gray-500 to text-gray-300, dark:text-gray-400 to dark:text-gray-200 */}
-              © 2025{" "}
+              © 2026{" "}
               <a
                 href="https://flowbite.com/"
                 className="hover:underline text-gray-300 hover:text-gray-100 dark:text-gray-200 dark:hover:text-white"

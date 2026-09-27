@@ -1,6 +1,6 @@
 <div align="center">
   <h1>🚀 Welcome to my Portfolio Website!</h1>
-  <p>I'm Qaiser Ejaz, a passionate Full-Stack Developer showcasing my journey through this interactive platform.</p>
+  <p>I'm Qaiser Ejaz, a passionate Full-Stack Developer and Dynamics 365 Business Central & Power Platform Consultant.</p>
 </div>
 
 <p align="center">
@@ -80,6 +80,15 @@
 - ⚛️ React.js with Vite
 - 📜 JavaScript/JSX
 - 🌐 HTML5/CSS3
+
+### Microsoft Power Platform & Dynamics 365
+- 📊 Dynamics 365 Business Central (AL Extensions, Data Models, Integrations)
+- 🔗 Power Automate (Workflow & Process Automation)
+- 📈 Power BI (Dashboards & Reporting)
+- 🏢 Power Apps (Low-Code Application Development)
+- 🌐 Power Pages (Customer-Facing Portals)
+- 🗄️ SQL Server (Database & RDLC Reports)
+- 👥 CRM (Customer Relationship Management)
 
 ### Styling & UI
 - 🎨 Tailwind CSS

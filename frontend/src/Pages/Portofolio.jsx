@@ -85,6 +85,15 @@ TabPanel.propTypes = {
 
 // Tech Stack Icons
 const techStacks = [
+  { icon: "microsoftdynamics365.svg", language: "Microsoft Dynamics 365" },
+  { icon: "dynamics365BC.svg", language: "Dynamics 365 Business Central" },
+  { icon: "dataverse.svg", language: "Dataverse" },
+  // { icon: "powerplatform.svg", language: "Power Platform" },
+  { icon: "powerbi.svg", language: "Power BI" },
+  { icon: "powerapps.svg", language: "Power Apps" },
+  { icon: "powerautomate.svg", language: "Power Automate" },
+  { icon: "powerpages.svg", language: "Power Pages" },
+  { icon: "sqlserver.svg", language: "SQL Server" },
   { icon: "html.svg", language: "HTML" },
   { icon: "css.svg", language: "CSS" },
   { icon: "javascript.svg", language: "JavaScript" },
@@ -133,7 +142,7 @@ export default function FullWidthTabs() {
   const [showAllProjects, setShowAllProjects] = useState(false);
   const [showAllCertificates, setShowAllCertificates] = useState(false);
   const [firebaseError, setFirebaseError] = useState(null); // Added state for Firebase errors
-const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const isMobile = window.innerWidth < 768;
   const initialItems = isMobile ? 4 : 6; // Responsive initial items
 
@@ -144,10 +153,34 @@ const [isLoading, setIsLoading] = useState(true);
   // Fetch data from Firestore with enhanced error handling and user feedback
   // Modify the fetchData function
   const fetchData = useCallback(async () => {
-    // Load from cache first
+    const readCachedData = (key) => {
+      try {
+        const localData = localStorage.getItem(key);
+        if (localData) return JSON.parse(localData);
+
+        const sessionData = sessionStorage.getItem(key);
+        if (sessionData) return JSON.parse(sessionData);
+
+        return [];
+      } catch (error) {
+        console.error(`Error parsing cached data for ${key}:`, error);
+        return [];
+      }
+    };
+
+    const saveCachedData = (key, data) => {
+      try {
+        localStorage.setItem(key, JSON.stringify(data));
+        sessionStorage.setItem(key, JSON.stringify(data));
+      } catch (error) {
+        console.error(`Error saving cached data for ${key}:`, error);
+      }
+    };
+
+    // Load from a persistent cache first
     try {
-      const cachedProjects = JSON.parse(sessionStorage.getItem("projects") || "[]");
-      const cachedCertificates = JSON.parse(sessionStorage.getItem("certificates") || "[]");
+      const cachedProjects = readCachedData("projects");
+      const cachedCertificates = readCachedData("certificates");
       setProjects(cachedProjects);
       setCertificates(cachedCertificates);
       setIsLoading(false);
@@ -176,8 +209,8 @@ const [isLoading, setIsLoading] = useState(true);
       setProjects(projectData);
       setCertificates(certificateData);
 
-      sessionStorage.setItem("projects", JSON.stringify(projectData));
-      sessionStorage.setItem("certificates", JSON.stringify(certificateData));
+      saveCachedData("projects", projectData);
+      saveCachedData("certificates", certificateData);
       setFirebaseError(null);
       setIsLoading(false);
     } catch (error) {
@@ -208,6 +241,21 @@ const [isLoading, setIsLoading] = useState(true);
   const [touchStartX, setTouchStartX] = useState(null);
   const [touchCurrentX, setTouchCurrentX] = useState(null);
   const tabsContainerRef = useRef(null);
+
+  useEffect(() => {
+    const handlePortfolioTabChange = (event) => {
+      const nextTab = event.detail?.tab;
+      if (typeof nextTab === "number") {
+        setValue(nextTab);
+      }
+    };
+
+    window.addEventListener("portfolio-tab-change", handlePortfolioTabChange);
+
+    return () => {
+      window.removeEventListener("portfolio-tab-change", handlePortfolioTabChange);
+    };
+  }, []);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
