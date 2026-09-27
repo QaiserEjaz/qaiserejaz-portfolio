@@ -167,15 +167,13 @@ const WorkExperience = () => {
       <h2 data-aos="fade-down" className="text-3xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#6366f1] to-[#a855f7] text-center mb-12">
         Work Experience
       </h2>
-      <div className="relative">
-        <div
-          className="hidden md:block absolute left-0 top-6 w-1 bg-gradient-to-b from-[#6366f1] to-[#a855f7] transform translate-x-1/2"
-          style={{ height: `calc(${(workData.length - 1) * 100}% - ${(workData.length - 1) * 72.5}%)` }}
-        ></div>
-
+<div className="relative">
         {workData.map((work, index) => (
-          <div key={index} data-aos="fade-up" data-aos-delay={index * 100} className="relative group sm:pl-8 md:pl-14 mb-8 last:mb-2">
+          <div key={index} data-aos="fade-up" data-aos-delay={index * 100} className="relative group sm:pl-8 md:pl-14 mb-8 last:mb-0">
             <div className="hidden md:block absolute left-1 -translate-x-1/2 top-6 w-4 h-4 bg-gradient-to-r from-[#6366f1] to-[#a855f7] rounded-full border-2 border-white/20"></div>
+            {index < workData.length - 1 && (
+              <div className="hidden md:block absolute left-1 -translate-x-1/2 top-8 w-1 bg-gradient-to-b from-[#6366f1] to-[#a855f7]" style={{ height: "calc(100% + 1.5rem)" }}></div>
+            )}
             <div className="relative bg-gray-900/50 backdrop-blur-lg p-6 rounded-xl border border-white/10 overflow-hidden transition-all duration-300 hover:scale-100 hover:shadow-md group-hover:border-[#6366f1]/50">
               <div className="absolute -z-10 inset-0 bg-gradient-to-br from-[#6366f1] to-[#a855f7] opacity-10 group-hover:opacity-20 transition-opacity duration-300"></div>
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 mb-4">
